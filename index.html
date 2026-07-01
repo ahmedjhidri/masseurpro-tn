@@ -169,31 +169,37 @@
     }
     .carousel {
       position: relative;
-      overflow: hidden;
+      width: 100%;
       border-radius: 14px;
       background: #f8fafc;
     }
+    .carousel-viewport {
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 14px;
+      touch-action: pan-y pinch-zoom;
+    }
     .carousel-track {
       display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      height: 100%;
+      transition: transform .35s ease;
+      will-change: transform;
     }
-    .carousel-track::-webkit-scrollbar { display: none; }
     .carousel-slide {
       flex: 0 0 100%;
-      scroll-snap-align: center;
-      aspect-ratio: 1;
+      width: 100%;
+      height: 100%;
       display: grid;
       place-items: center;
-      padding: .5rem;
+      padding: .75rem;
+      user-select: none;
     }
     .carousel-slide img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      pointer-events: none;
     }
     .carousel-btn {
       position: absolute;
@@ -449,6 +455,10 @@
       pointer-events: none;
     }
     .modal-overlay.open { display: flex; pointer-events: auto; }
+    @media (min-width: 768px) {
+      .modal-overlay { align-items: center; padding: 1rem; }
+      .modal { border-radius: 24px; max-height: 85vh; }
+    }
     .modal {
       background: var(--surface); width: 100%; max-width: 480px;
       border-radius: 24px 24px 0 0; padding: 1.5rem 1.25rem 2rem;
@@ -493,6 +503,10 @@
     .order-section {
       background: var(--surface);
       border-block: 1px solid var(--line);
+      transition: box-shadow .3s;
+    }
+    .order-section.highlight .order-card {
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, .45);
     }
     .order-card {
       max-width: 520px;
@@ -546,7 +560,7 @@
       <a href="#reviews">Avis</a>
       <a href="#offers">Offres</a>
     </div>
-    <button type="button" class="btn btn-primary" data-open-order>Commander</button>
+    <button type="button" class="btn btn-primary" data-open-order onclick="openOrder()">Commander</button>
   </div>
 </nav>
 
@@ -571,7 +585,7 @@
       </div>
 
       <div class="hero-ctas">
-        <button type="button" class="btn btn-primary btn-lg" data-open-order>Commander maintenant</button>
+        <button type="button" class="btn btn-primary btn-lg" data-open-order onclick="openOrder()">Commander maintenant</button>
         <a href="#video" class="btn btn-ghost btn-lg">Voir la démo ▶</a>
       </div>
 
@@ -585,14 +599,16 @@
 
     <div class="product-stage">
       <div class="carousel" id="product-carousel">
-        <button type="button" class="carousel-btn prev" aria-label="Photo précédente">‹</button>
-        <div class="carousel-track" id="carousel-track">
-          <div class="carousel-slide"><img src="ems-product.jpg" alt="Kit complet EMS Foot Massager"></div>
-          <div class="carousel-slide"><img src="ems-lifestyle.jpg" alt="Utilisation sur les pieds"></div>
-          <div class="carousel-slide"><img src="ems-detail.jpg" alt="Télécommande EMS"></div>
-          <div class="carousel-slide"><img src="ems-modes.jpg" alt="Modes de massage EMS"></div>
+        <div class="carousel-viewport" id="carousel-viewport">
+          <div class="carousel-track" id="carousel-track">
+            <div class="carousel-slide"><img src="ems-lifestyle.jpg?v=3" alt="Utilisation sur les pieds"></div>
+            <div class="carousel-slide"><img src="ems-product.jpg?v=3" alt="Tapis EMS Foot Massager"></div>
+            <div class="carousel-slide"><img src="ems-detail.jpg?v=3" alt="Télécommande EMS"></div>
+            <div class="carousel-slide"><img src="ems-kit.jpg?v=3" alt="Kit complet"></div>
+          </div>
         </div>
-        <button type="button" class="carousel-btn next" aria-label="Photo suivante">›</button>
+        <button type="button" class="carousel-btn prev" id="carousel-prev" aria-label="Photo précédente">‹</button>
+        <button type="button" class="carousel-btn next" id="carousel-next" aria-label="Photo suivante">›</button>
         <div class="carousel-dots" id="carousel-dots"></div>
       </div>
       <div class="float-tag t1"><span class="dot"></span> En stock · Expédition rapide</div>
@@ -767,7 +783,7 @@
       </div>
     </div>
     <div style="text-align:center;margin-top:1.5rem">
-      <button type="button" class="btn btn-primary btn-lg" style="max-width:340px;margin:0 auto" data-open-order>Commander mon pack →</button>
+      <button type="button" class="btn btn-primary btn-lg" style="max-width:340px;margin:0 auto" data-open-order onclick="openOrder()">Commander mon pack →</button>
     </div>
   </div>
 </section>
@@ -872,7 +888,7 @@
     <div class="cta-band">
       <h2>Offre limitée · 29 DT seulement</h2>
       <p>Stock limité ce weekend. Commandez maintenant, payez à la livraison.</p>
-      <button type="button" class="btn btn-primary btn-lg" data-open-order>Je commande maintenant →</button>
+      <button type="button" class="btn btn-primary btn-lg" data-open-order onclick="openOrder()">Je commande maintenant →</button>
     </div>
   </div>
 </section>
@@ -896,7 +912,7 @@
     <del>49 DT</del> <strong id="sticky-price">29 DT</strong>
     <div class="s-sub">Livraison gratuite · COD</div>
   </div>
-  <button type="button" class="btn btn-primary" data-open-order>Commander</button>
+  <button type="button" class="btn btn-primary" data-open-order onclick="openOrder()">Commander</button>
 </div>
 
 <!-- MODAL (mobile quick access) -->
@@ -987,21 +1003,21 @@
   function openOrder() {
     hideError(document.getElementById('form-error'));
     hideError(document.getElementById('modal-error'));
-    if (window.innerWidth < 768) {
-      const modal = document.getElementById('modal');
-      if (modal) {
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => document.getElementById('modal-name')?.focus(), 200);
-        return;
-      }
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('modal-name')?.focus(), 150);
+      return;
     }
     const section = document.getElementById('commander');
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => document.getElementById('name')?.focus(), 400);
+      section.classList.add('highlight');
+      setTimeout(() => section.classList.remove('highlight'), 1200);
     }
   }
+  window.openOrder = openOrder;
 
   function closeModal() {
     document.getElementById('modal')?.classList.remove('open');
@@ -1040,11 +1056,14 @@
 
   function initCarousel() {
     const track = document.getElementById('carousel-track');
+    const viewport = document.getElementById('carousel-viewport');
     const dotsWrap = document.getElementById('carousel-dots');
-    if (!track || !dotsWrap) return;
+    if (!track || !viewport || !dotsWrap) return;
 
     const slides = track.querySelectorAll('.carousel-slide');
     let index = 0;
+    let startX = 0;
+    let dragging = false;
 
     slides.forEach((_, i) => {
       const dot = document.createElement('button');
@@ -1059,17 +1078,32 @@
 
     function goTo(i) {
       index = Math.max(0, Math.min(i, slides.length - 1));
-      track.scrollTo({ left: slides[index].offsetLeft, behavior: 'smooth' });
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
       dots.forEach((d, n) => d.classList.toggle('active', n === index));
     }
 
-    document.querySelector('.carousel-btn.prev')?.addEventListener('click', () => goTo(index - 1));
-    document.querySelector('.carousel-btn.next')?.addEventListener('click', () => goTo(index + 1));
+    document.getElementById('carousel-prev')?.addEventListener('click', () => goTo(index - 1));
+    document.getElementById('carousel-next')?.addEventListener('click', () => goTo(index + 1));
 
-    track.addEventListener('scroll', () => {
-      index = Math.round(track.scrollLeft / track.offsetWidth);
-      dots.forEach((d, n) => d.classList.toggle('active', n === index));
+    viewport.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      dragging = true;
     }, { passive: true });
+
+    viewport.addEventListener('touchend', (e) => {
+      if (!dragging) return;
+      dragging = false;
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) goTo(index + (diff > 0 ? 1 : -1));
+    }, { passive: true });
+
+    viewport.addEventListener('mousedown', (e) => { startX = e.clientX; dragging = true; });
+    viewport.addEventListener('mouseup', (e) => {
+      if (!dragging) return;
+      dragging = false;
+      const diff = startX - e.clientX;
+      if (Math.abs(diff) > 40) goTo(index + (diff > 0 ? 1 : -1));
+    });
   }
 
   function initForms() {
@@ -1140,13 +1174,25 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function boot() {
     initCarousel();
     initForms();
     initUI();
     updateSummary();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(r => r.update());
+    });
+    navigator.serviceWorker.register('/sw.js?v=3').catch(() => {});
+  }
 </script>
 </body>
 </html>
