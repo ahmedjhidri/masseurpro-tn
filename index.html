@@ -167,22 +167,69 @@
       border: 1px solid var(--line);
       box-shadow: var(--shadow-lg);
     }
-    .product-img {
-      width: 100%; border-radius: 14px;
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
       background: #f8fafc;
-      object-fit: contain;
+    }
+    .carousel-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .carousel-track::-webkit-scrollbar { display: none; }
+    .carousel-slide {
+      flex: 0 0 100%;
+      scroll-snap-align: center;
       aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: .5rem;
     }
-    .product-thumbs {
-      display: flex; gap: .55rem; margin-top: .75rem;
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
-    .product-thumbs button {
-      flex: 1; border: 2px solid var(--line); border-radius: 10px;
-      padding: 0; overflow: hidden; background: #f8fafc; cursor: pointer;
-      transition: border-color .15s;
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,.95);
+      box-shadow: var(--shadow);
+      font-size: 1.4rem;
+      line-height: 1;
+      color: var(--ink);
+      z-index: 2;
+      display: grid;
+      place-items: center;
     }
-    .product-thumbs button.active { border-color: var(--brand); }
-    .product-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .carousel-btn.prev { left: .5rem; }
+    .carousel-btn.next { right: .5rem; }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: .4rem;
+      margin-top: .65rem;
+    }
+    .carousel-dots button {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: none;
+      background: #cbd5e1;
+      padding: 0;
+      cursor: pointer;
+    }
+    .carousel-dots button.active { background: var(--brand); width: 22px; border-radius: 999px; }
     .float-tag {
       position: absolute; background: var(--surface);
       border: 1px solid var(--line); border-radius: 12px;
@@ -396,16 +443,18 @@
 
     /* Modal */
     .modal-overlay {
-      display: none; position: fixed; inset: 0; z-index: 200;
+      display: none; position: fixed; inset: 0; z-index: 9999;
       background: rgba(15,23,42,.55); backdrop-filter: blur(4px);
       align-items: flex-end; justify-content: center;
+      pointer-events: none;
     }
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open { display: flex; pointer-events: auto; }
     .modal {
       background: var(--surface); width: 100%; max-width: 480px;
       border-radius: 24px 24px 0 0; padding: 1.5rem 1.25rem 2rem;
       max-height: 92vh; overflow-y: auto;
       animation: slideUp .25s ease;
+      pointer-events: auto;
     }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     .modal-handle { width: 40px; height: 4px; background: var(--line); border-radius: 4px; margin: 0 auto 1rem; }
@@ -439,6 +488,46 @@
     }
     .btn-wa:hover { background: #1ebe5d; }
     .modal-note { text-align: center; font-size: .72rem; color: var(--muted); margin-top: .65rem; }
+
+    /* Order section */
+    .order-section {
+      background: var(--surface);
+      border-block: 1px solid var(--line);
+    }
+    .order-card {
+      max-width: 520px;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+    .order-card h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: .35rem; }
+    .order-card .sub { color: var(--muted); font-size: .9rem; margin-bottom: 1.25rem; }
+    .form-error {
+      display: none;
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: .65rem .85rem;
+      font-size: .85rem;
+      font-weight: 600;
+      margin-bottom: .85rem;
+    }
+    .form-error.show { display: block; }
+    .btn-submit {
+      width: 100%;
+      background: var(--cta);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(249, 115, 22, .35);
+    }
+    .btn-submit:hover { background: var(--cta-hover); }
   </style>
 </head>
 <body>
@@ -457,7 +546,7 @@
       <a href="#reviews">Avis</a>
       <a href="#offers">Offres</a>
     </div>
-    <button class="btn btn-primary" onclick="openModal()">Commander</button>
+    <button type="button" class="btn btn-primary" data-open-order>Commander</button>
   </div>
 </nav>
 
@@ -482,7 +571,7 @@
       </div>
 
       <div class="hero-ctas">
-        <button class="btn btn-primary btn-lg" onclick="openModal()">Commander maintenant</button>
+        <button type="button" class="btn btn-primary btn-lg" data-open-order>Commander maintenant</button>
         <a href="#video" class="btn btn-ghost btn-lg">Voir la démo ▶</a>
       </div>
 
@@ -495,14 +584,16 @@
     </div>
 
     <div class="product-stage">
-      <img src="ems-product.jpg" alt="EMS Foot Massager – kit complet tapis, télécommande et accessoires" class="product-img" id="main-product-img" loading="eager">
-      <div class="product-thumbs">
-        <button type="button" class="active" onclick="setProductImage('ems-product.jpg', this)" aria-label="Kit complet">
-          <img src="ems-product.jpg" alt="Kit complet">
-        </button>
-        <button type="button" onclick="setProductImage('ems-lifestyle.jpg', this)" aria-label="Utilisation">
-          <img src="ems-lifestyle.jpg" alt="Utilisation sur les pieds">
-        </button>
+      <div class="carousel" id="product-carousel">
+        <button type="button" class="carousel-btn prev" aria-label="Photo précédente">‹</button>
+        <div class="carousel-track" id="carousel-track">
+          <div class="carousel-slide"><img src="ems-product.jpg" alt="Kit complet EMS Foot Massager"></div>
+          <div class="carousel-slide"><img src="ems-lifestyle.jpg" alt="Utilisation sur les pieds"></div>
+          <div class="carousel-slide"><img src="ems-detail.jpg" alt="Télécommande EMS"></div>
+          <div class="carousel-slide"><img src="ems-modes.jpg" alt="Modes de massage EMS"></div>
+        </div>
+        <button type="button" class="carousel-btn next" aria-label="Photo suivante">›</button>
+        <div class="carousel-dots" id="carousel-dots"></div>
       </div>
       <div class="float-tag t1"><span class="dot"></span> En stock · Expédition rapide</div>
       <div class="float-tag t2">⭐ 4.8/5 · 312 avis</div>
@@ -642,7 +733,7 @@
       <p>Livraison gratuite sur toutes les offres. Paiement à la livraison uniquement.</p>
     </div>
     <div class="bundle-grid">
-      <div class="bundle" data-qty="1" onclick="selectBundle(1)">
+      <div class="bundle" data-qty="1">
         <div class="qty-label">Solo</div>
         <div class="bundle-price">29 DT</div>
         <div class="per-unit">29 DT / tapis</div>
@@ -652,7 +743,7 @@
           <li>Livraison gratuite</li>
         </ul>
       </div>
-      <div class="bundle popular selected" data-qty="2" onclick="selectBundle(2)">
+      <div class="bundle popular selected" data-qty="2">
         <div class="qty-label">Duo · Couple</div>
         <div class="bundle-price">54 DT</div>
         <div class="per-unit">27 DT / tapis</div>
@@ -663,7 +754,7 @@
           <li>Livraison gratuite</li>
         </ul>
       </div>
-      <div class="bundle" data-qty="3" onclick="selectBundle(3)">
+      <div class="bundle" data-qty="3">
         <div class="qty-label">Famille</div>
         <div class="bundle-price">79 DT</div>
         <div class="per-unit">26 DT / tapis</div>
@@ -676,7 +767,7 @@
       </div>
     </div>
     <div style="text-align:center;margin-top:1.5rem">
-      <button class="btn btn-primary btn-lg" style="max-width:340px;margin:0 auto" onclick="openModal()">Commander mon pack →</button>
+      <button type="button" class="btn btn-primary btn-lg" style="max-width:340px;margin:0 auto" data-open-order>Commander mon pack →</button>
     </div>
   </div>
 </section>
@@ -695,6 +786,47 @@
       <div class="box-item"><div class="bi">📋</div><span>Notice FR/AR</span></div>
       <div class="box-item"><div class="bi">📦</div><span>Emballage sécurisé</span></div>
       <div class="box-item"><div class="bi">🚚</div><span>Livraison gratuite</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER FORM -->
+<section class="order-section" id="commander">
+  <div class="container">
+    <div class="order-card">
+      <h2>Commander maintenant</h2>
+      <p class="sub">Remplis le formulaire — on te contacte pour confirmer. Paiement à la livraison.</p>
+      <div class="form-error" id="form-error"></div>
+      <form id="order-form" novalidate>
+        <div class="field">
+          <label for="name">Nom & prénom</label>
+          <input type="text" id="name" name="name" placeholder="Ex: Mohamed Ben Salem" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="phone">Numéro de téléphone</label>
+          <input type="tel" id="phone" name="phone" placeholder="Ex: 20 123 456" required autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="address">Adresse complète</label>
+          <input type="text" id="address" name="address" placeholder="Ex: Sfax, Sakiet Ezzit, rue principale" required autocomplete="street-address">
+        </div>
+        <div class="field">
+          <label for="qty">Quantité</label>
+          <select id="qty" name="qty">
+            <option value="1">1 tapis — 29 DT</option>
+            <option value="2" selected>2 tapis — 54 DT</option>
+            <option value="3">3 tapis — 79 DT</option>
+          </select>
+        </div>
+        <div class="order-summary">
+          <div class="row"><span>Produit</span><span>EMS Foot Massager</span></div>
+          <div class="row"><span>Quantité</span><span id="sum-qty">2 tapis</span></div>
+          <div class="row"><span>Livraison</span><span class="free">GRATUITE</span></div>
+          <div class="row total"><span>Total à payer</span><span id="sum-total">54 DT</span></div>
+        </div>
+        <button type="submit" class="btn-submit">Confirmer ma commande</button>
+        <p class="modal-note">🔒 Paiement uniquement à la livraison · Livraison 24-72h</p>
+      </form>
     </div>
   </div>
 </section>
@@ -740,7 +872,7 @@
     <div class="cta-band">
       <h2>Offre limitée · 29 DT seulement</h2>
       <p>Stock limité ce weekend. Commandez maintenant, payez à la livraison.</p>
-      <button class="btn btn-primary btn-lg" onclick="openModal()">Je commande maintenant →</button>
+      <button type="button" class="btn btn-primary btn-lg" data-open-order>Je commande maintenant →</button>
     </div>
   </div>
 </section>
@@ -764,63 +896,34 @@
     <del>49 DT</del> <strong id="sticky-price">29 DT</strong>
     <div class="s-sub">Livraison gratuite · COD</div>
   </div>
-  <button class="btn btn-primary" onclick="openModal()">Commander</button>
+  <button type="button" class="btn btn-primary" data-open-order>Commander</button>
 </div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
-  <div class="modal">
+<!-- MODAL (mobile quick access) -->
+<div class="modal-overlay" id="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-handle"></div>
     <div class="modal-header">
-      <h2>Finaliser ma commande</h2>
-      <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
+      <h2 id="modal-title">Commander</h2>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Fermer">✕</button>
     </div>
-
-    <div class="field">
-      <label for="name">Nom & prénom</label>
-      <input type="text" id="name" placeholder="Ex: Mohamed Ben Salem" autocomplete="name">
-    </div>
-    <div class="field">
-      <label for="phone">Téléphone</label>
-      <input type="tel" id="phone" placeholder="Ex: 20 123 456" autocomplete="tel">
-    </div>
-    <div class="field">
-      <label for="governorate">Gouvernorat</label>
-      <select id="governorate">
-        <option value="">Sélectionnez...</option>
-        <option>Tunis</option><option>Ariana</option><option>Ben Arous</option><option>Manouba</option>
-        <option>Nabeul</option><option>Zaghouan</option><option>Bizerte</option><option>Béja</option>
-        <option>Jendouba</option><option>Le Kef</option><option>Siliana</option><option>Sousse</option>
-        <option>Monastir</option><option>Mahdia</option><option>Sfax</option><option>Kairouan</option>
-        <option>Kasserine</option><option>Sidi Bouzid</option><option>Gabès</option><option>Médenine</option>
-        <option>Tataouine</option><option>Gafsa</option><option>Tozeur</option><option>Kébili</option>
-      </select>
-    </div>
-    <div class="field">
-      <label for="address">Ville / Adresse</label>
-      <input type="text" id="address" placeholder="Ex: Sakiet Ezzit, rue principale">
-    </div>
-    <div class="field">
-      <label for="qty">Pack choisi</label>
-      <select id="qty" onchange="selectBundle(parseInt(this.value))">
-        <option value="1">1 tapis — 29 DT</option>
-        <option value="2" selected>2 tapis — 54 DT (économisez 4 DT)</option>
-        <option value="3">3 tapis — 79 DT (économisez 8 DT)</option>
-      </select>
-    </div>
-
-    <div class="order-summary">
-      <div class="row"><span>Produit</span><span>EMS Foot Massager</span></div>
-      <div class="row"><span>Quantité</span><span id="sum-qty">2 tapis</span></div>
-      <div class="row"><span>Livraison</span><span class="free">GRATUITE</span></div>
-      <div class="row total"><span>Total à payer</span><span id="sum-total">54 DT</span></div>
-    </div>
-
-    <button class="btn-wa" onclick="submitOrder()">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Confirmer sur WhatsApp
-    </button>
-    <p class="modal-note">🔒 Commande enregistrée · Paiement uniquement à la livraison</p>
+    <div class="form-error" id="modal-error"></div>
+    <form id="modal-form" novalidate>
+      <div class="field">
+        <label for="modal-name">Nom & prénom</label>
+        <input type="text" id="modal-name" placeholder="Ex: Mohamed Ben Salem" required>
+      </div>
+      <div class="field">
+        <label for="modal-phone">Numéro de téléphone</label>
+        <input type="tel" id="modal-phone" placeholder="Ex: 20 123 456" required>
+      </div>
+      <div class="field">
+        <label for="modal-address">Adresse complète</label>
+        <input type="text" id="modal-address" placeholder="Ex: Sfax, Sakiet Ezzit" required>
+      </div>
+      <button type="submit" class="btn-submit">Confirmer ma commande</button>
+      <p class="modal-note">Paiement à la livraison uniquement</p>
+    </form>
   </div>
 </div>
 
@@ -830,107 +933,220 @@
 <script>
   const SUPABASE_URL = 'https://bvqlsmonbnkbesyyxual.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2cWxzbW9uYm5rYmVzeXl4dWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTc1NTMsImV4cCI6MjA5ODQzMzU1M30.qw9uGV1WvPgY3lAsxumk3UgHYgANL5DxgowsAoPBfQc';
-  const WA_NUMBER = "21600000000";
-
-  let supabase = null;
-  try { supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e) {}
-
+  const WA_NUMBER = '21600000000';
   const PRICES = { 1: 29, 2: 54, 3: 79 };
   const QTY_LABELS = { 1: '1 tapis', 2: '2 tapis', 3: '3 tapis' };
   let selectedQty = 2;
+  let supabase = null;
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+  try {
+    if (window.supabase) supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } catch (e) {}
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 3500);
+  }
+
+  function showError(el, msg) {
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function hideError(el) {
+    if (el) el.classList.remove('show');
+  }
+
+  function updateSummary() {
+    const qtyEl = document.getElementById('qty');
+    if (!qtyEl) return;
+    const qty = parseInt(qtyEl.value, 10) || 1;
+    selectedQty = qty;
+    const sumQty = document.getElementById('sum-qty');
+    const sumTotal = document.getElementById('sum-total');
+    const stickyPrice = document.getElementById('sticky-price');
+    if (sumQty) sumQty.textContent = QTY_LABELS[qty];
+    if (sumTotal) sumTotal.textContent = PRICES[qty] + ' DT';
+    if (stickyPrice) stickyPrice.textContent = PRICES[qty] + ' DT';
+    document.querySelectorAll('.bundle').forEach(b => {
+      b.classList.toggle('selected', parseInt(b.dataset.qty, 10) === qty);
+    });
   }
 
   function selectBundle(qty) {
     selectedQty = qty;
-    document.getElementById('qty').value = qty;
-    document.querySelectorAll('.bundle').forEach(b => b.classList.toggle('selected', parseInt(b.dataset.qty) === qty));
+    const qtyEl = document.getElementById('qty');
+    if (qtyEl) qtyEl.value = String(qty);
     updateSummary();
   }
 
-  function updateSummary() {
-    const qty = parseInt(document.getElementById('qty').value);
-    selectedQty = qty;
-    document.getElementById('sum-qty').textContent = QTY_LABELS[qty];
-    document.getElementById('sum-total').textContent = PRICES[qty] + ' DT';
-    document.getElementById('sticky-price').textContent = PRICES[qty] + ' DT';
-    document.querySelectorAll('.bundle').forEach(b => b.classList.toggle('selected', parseInt(b.dataset.qty) === qty));
+  function openOrder() {
+    hideError(document.getElementById('form-error'));
+    hideError(document.getElementById('modal-error'));
+    if (window.innerWidth < 768) {
+      const modal = document.getElementById('modal');
+      if (modal) {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => document.getElementById('modal-name')?.focus(), 200);
+        return;
+      }
+    }
+    const section = document.getElementById('commander');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => document.getElementById('name')?.focus(), 400);
+    }
   }
 
-  function setProductImage(src, btn) {
-    document.getElementById('main-product-img').src = src;
-    document.querySelectorAll('.product-thumbs button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.style.display = 'block';
-    setTimeout(() => t.style.display = 'none', 3500);
-  }
-
-  function openModal() {
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    document.getElementById('qty').value = selectedQty;
-    updateSummary();
-  }
   function closeModal() {
-    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modal')?.classList.remove('open');
     document.body.style.overflow = '';
-  }
-  function closeModalOutside(e) {
-    if (e.target === document.getElementById('modal')) closeModal();
+    hideError(document.getElementById('modal-error'));
   }
 
-  async function submitOrder() {
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const governorate = document.getElementById('governorate').value;
-    const address = document.getElementById('address').value.trim();
-    const qty = parseInt(document.getElementById('qty').value);
-    const fullAddress = governorate ? `${address}, ${governorate}` : address;
-
-    if (!name || !phone || !governorate || !address) {
-      alert('Veuillez remplir tous les champs 🙏');
-      return;
+  async function processOrder(name, phone, address, qty, errorEl) {
+    hideError(errorEl);
+    if (!name || !phone || !address) {
+      showError(errorEl, 'Veuillez remplir tous les champs.');
+      return false;
     }
 
     if (supabase) {
       try {
         const { error } = await supabase.from('orders').insert({
-          name, phone, address: fullAddress,
+          name,
+          phone,
+          address,
           product: 'EMS Foot Massager',
           quantity: qty,
           total_price: PRICES[qty],
           status: 'pending'
         });
         if (!error) showToast('✅ Commande enregistrée !');
-      } catch(e) { console.error(e); }
+      } catch (e) {
+        console.error(e);
+      }
     }
 
-    const msg = `⚡ *Commande MasseurPro – EMS Foot Massager*\n\n👤 ${name}\n📞 ${phone}\n📍 ${fullAddress}\n\n📦 ${QTY_LABELS[qty]}\n💰 *${PRICES[qty]} DT* (livraison incluse)\n💳 Paiement à la livraison\n\nMerci de confirmer 🙏`;
+    const msg = `⚡ *Commande MasseurPro – EMS Foot Massager*\n\n👤 ${name}\n📞 ${phone}\n📍 ${address}\n\n📦 ${QTY_LABELS[qty]}\n💰 *${PRICES[qty]} DT* (livraison incluse)\n💳 Paiement à la livraison\n\nMerci de confirmer 🙏`;
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-    closeModal();
+    return true;
   }
 
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const el = document.querySelector(a.getAttribute('href'));
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+  function initCarousel() {
+    const track = document.getElementById('carousel-track');
+    const dotsWrap = document.getElementById('carousel-dots');
+    if (!track || !dotsWrap) return;
+
+    const slides = track.querySelectorAll('.carousel-slide');
+    let index = 0;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Photo ' + (i + 1));
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
     });
+
+    const dots = dotsWrap.querySelectorAll('button');
+
+    function goTo(i) {
+      index = Math.max(0, Math.min(i, slides.length - 1));
+      track.scrollTo({ left: slides[index].offsetLeft, behavior: 'smooth' });
+      dots.forEach((d, n) => d.classList.toggle('active', n === index));
+    }
+
+    document.querySelector('.carousel-btn.prev')?.addEventListener('click', () => goTo(index - 1));
+    document.querySelector('.carousel-btn.next')?.addEventListener('click', () => goTo(index + 1));
+
+    track.addEventListener('scroll', () => {
+      index = Math.round(track.scrollLeft / track.offsetWidth);
+      dots.forEach((d, n) => d.classList.toggle('active', n === index));
+    }, { passive: true });
+  }
+
+  function initForms() {
+    document.getElementById('qty')?.addEventListener('change', updateSummary);
+
+    document.getElementById('order-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const ok = await processOrder(
+        document.getElementById('name').value.trim(),
+        document.getElementById('phone').value.trim(),
+        document.getElementById('address').value.trim(),
+        parseInt(document.getElementById('qty').value, 10) || 1,
+        document.getElementById('form-error')
+      );
+      if (ok) e.target.reset();
+    });
+
+    document.getElementById('modal-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const qtyEl = document.getElementById('qty');
+      const qty = qtyEl ? parseInt(qtyEl.value, 10) || selectedQty : selectedQty;
+      const ok = await processOrder(
+        document.getElementById('modal-name').value.trim(),
+        document.getElementById('modal-phone').value.trim(),
+        document.getElementById('modal-address').value.trim(),
+        qty,
+        document.getElementById('modal-error')
+      );
+      if (ok) {
+        e.target.reset();
+        closeModal();
+      }
+    });
+  }
+
+  function initUI() {
+    document.querySelectorAll('[data-open-order]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openOrder();
+      });
+    });
+
+    document.getElementById('modal-close')?.addEventListener('click', closeModal);
+    document.getElementById('modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'modal') closeModal();
+    });
+
+    document.querySelectorAll('.bundle').forEach(b => {
+      b.addEventListener('click', () => selectBundle(parseInt(b.dataset.qty, 10)));
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        e.preventDefault();
+        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const sticky = document.getElementById('sticky');
+    const offers = document.getElementById('offers');
+    if (sticky && offers) {
+      new IntersectionObserver(entries => {
+        sticky.style.display = entries[0].isIntersecting ? 'none' : 'flex';
+      }, { threshold: 0.3 }).observe(offers);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initCarousel();
+    initForms();
+    initUI();
+    updateSummary();
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
   });
-
-  const stickyObs = new IntersectionObserver(entries => {
-    document.getElementById('sticky').style.display = entries[0].isIntersecting ? 'none' : 'flex';
-  }, { threshold: 0.3 });
-  stickyObs.observe(document.getElementById('offers'));
-
-  updateSummary();
 </script>
 </body>
 </html>
