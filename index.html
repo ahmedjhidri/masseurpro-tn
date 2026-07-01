@@ -3,444 +3,844 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="EMS Foot Massager – Tapis masseur électrique des pieds. Soulagement immédiat en 15 min. 29 TND, livraison incluse, paiement à la livraison en Tunisie.">
-  <meta name="theme-color" content="#1565c0">
+  <meta name="description" content="EMS Foot Massager – Tapis masseur électrique professionnel. Soulagement des pieds en 15 min. 29 DT livraison gratuite, paiement à la livraison en Tunisie.">
+  <meta name="theme-color" content="#0f172a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MasseurPro">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <title>EMS Foot Massager – Tapis Masseur Électrique | Livraison Tunisie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>EMS Foot Massager | MasseurPro Tunisie – 29 DT COD</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --blue: #1565c0; --blue-mid: #1976d2; --blue-light: #42a5f5;
-      --blue-bg: #e3f2fd; --blue-border: #90caf9;
-      --teal: #00695c; --teal-bg: #e0f2f1;
-      --gold: #f9a825; --red: #c62828; --text: #1a1a1a; --gray: #f5f5f5;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --brand: #0ea5e9;
+      --brand-dark: #0284c7;
+      --accent: #10b981;
+      --accent-soft: #d1fae5;
+      --cta: #f97316;
+      --cta-hover: #ea580c;
+      --danger: #ef4444;
+      --gold: #fbbf24;
+      --shadow: 0 4px 24px rgba(15, 23, 42, .08);
+      --shadow-lg: 0 20px 50px rgba(15, 23, 42, .12);
+      --radius: 16px;
+      --radius-lg: 24px;
+      --nav-h: 64px;
     }
-    body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); background: #fff; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 88px;
+    }
+    img { max-width: 100%; display: block; }
     a { color: inherit; text-decoration: none; }
-    .banner { background: var(--red); color: #fff; text-align: center; padding: .45rem 1rem; font-size: .88rem; font-weight: 600; }
+    button { font-family: inherit; cursor: pointer; }
+    .container { width: min(1120px, 100% - 2rem); margin-inline: auto; }
+
+    /* Announcement */
+    .announce {
+      background: linear-gradient(90deg, #0f172a, #1e3a5f);
+      color: #fff;
+      text-align: center;
+      padding: .55rem 1rem;
+      font-size: .82rem;
+      font-weight: 600;
+    }
+    .announce span { color: var(--gold); }
+
+    /* Nav */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: var(--blue); color: #fff;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 1.2rem; height: 52px;
+      height: var(--nav-h);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
-    nav .logo { font-size: 1.15rem; font-weight: 800; letter-spacing: .5px; }
-    nav .links { display: flex; gap: 1.2rem; font-size: .85rem; }
-    nav .links a { opacity: .85; } nav .links a:hover { opacity: 1; }
-    nav .cta-nav { background: var(--gold); color: #1a1a1a; padding: .35rem .9rem; border-radius: 20px; font-weight: 700; font-size: .85rem; border: none; cursor: pointer; }
-    .hero {
-      background: linear-gradient(135deg, #0d47a1 0%, #1565c0 55%, #1e88e5 100%);
-      color: #fff; padding: 2.5rem 1.2rem 2rem;
-      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+    .nav-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
     }
-    .hero-badge { background: var(--gold); color: #1a1a1a; padding: .3rem 1rem; border-radius: 20px; font-size: .8rem; font-weight: 700; }
-    .hero h1 { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 900; text-align: center; line-height: 1.2; }
-    .hero .sub { font-size: 1rem; opacity: .9; text-align: center; max-width: 480px; line-height: 1.5; }
-    .hero .bullets { list-style: none; display: flex; flex-direction: column; gap: .5rem; align-self: stretch; max-width: 480px; }
-    .hero .bullets li { display: flex; align-items: flex-start; gap: .5rem; font-size: .95rem; }
-    .hero .bullets li::before { content: "✓"; color: var(--gold); font-weight: 800; flex-shrink: 0; }
-    .price-block { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-    .price-old { font-size: 1.1rem; opacity: .7; text-decoration: line-through; }
-    .price-new { font-size: 2.4rem; font-weight: 900; color: var(--gold); }
-    .price-badge { background: var(--red); padding: .3rem .8rem; border-radius: 20px; font-size: .85rem; font-weight: 700; }
-    .btn-hero { display: inline-block; background: var(--gold); color: #1a1a1a; font-size: 1.1rem; font-weight: 800; padding: .9rem 2.2rem; border-radius: 50px; box-shadow: 0 4px 18px rgba(0,0,0,.25); cursor: pointer; border: none; width: 100%; max-width: 340px; text-align: center; }
-    .btn-hero:hover { background: #fdd835; }
-    .trust-row { display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center; font-size: .8rem; opacity: .85; }
-    .product-visual { background: rgba(255,255,255,.1); border-radius: 16px; padding: .5rem; max-width: 340px; width: 100%; text-align: center; }
-    .product-visual img { width: 100%; border-radius: 12px; display: block; }
+    .logo {
+      display: flex; align-items: center; gap: .5rem;
+      font-weight: 800; font-size: 1.05rem; letter-spacing: -.02em;
+    }
+    .logo-mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--brand), #6366f1);
+      display: grid; place-items: center; color: #fff; font-size: 1.1rem;
+    }
+    .nav-links { display: none; gap: 1.5rem; font-size: .88rem; font-weight: 600; color: var(--muted); }
+    .nav-links a:hover { color: var(--ink); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+      border: none; border-radius: 999px; font-weight: 800; transition: transform .15s, box-shadow .15s, background .15s;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary {
+      background: var(--cta); color: #fff;
+      padding: .7rem 1.25rem; font-size: .9rem;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, .35);
+    }
+    .btn-primary:hover { background: var(--cta-hover); }
+    .btn-lg { padding: 1rem 1.75rem; font-size: 1rem; width: 100%; }
+    .btn-ghost {
+      background: transparent; color: var(--ink);
+      border: 2px solid var(--line); padding: .65rem 1.2rem; font-size: .88rem;
+    }
 
-    /* GALLERY */
-    .gallery { background: #fff; padding: 2rem 1.2rem; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; max-width: 500px; margin: 0 auto; }
-    .gallery-grid img { width: 100%; border-radius: 10px; border: 2px solid var(--blue-border); cursor: pointer; transition: transform .2s; }
-    .gallery-grid img:hover { transform: scale(1.03); }
+    /* Hero */
+    .hero { padding: 2rem 0 3rem; }
+    .hero-grid {
+      display: grid; gap: 2rem; align-items: center;
+    }
+    @media (min-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+      .nav-links { display: flex; }
+    }
+    .hero-copy .eyebrow {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--accent-soft); color: #047857;
+      padding: .35rem .85rem; border-radius: 999px;
+      font-size: .75rem; font-weight: 700; margin-bottom: 1rem;
+    }
+    .hero-copy h1 {
+      font-size: clamp(1.85rem, 5vw, 2.75rem);
+      font-weight: 800; line-height: 1.12; letter-spacing: -.03em;
+      margin-bottom: 1rem;
+    }
+    .hero-copy h1 em { font-style: normal; color: var(--brand-dark); }
+    .hero-copy .lead {
+      color: var(--muted); font-size: 1.02rem; line-height: 1.65; margin-bottom: 1.25rem;
+    }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 12px; padding: .75rem; text-align: center;
+    }
+    .stat strong { display: block; font-size: 1.1rem; font-weight: 800; color: var(--ink); }
+    .stat span { font-size: .7rem; color: var(--muted); font-weight: 600; }
+    .price-hero {
+      display: flex; align-items: baseline; flex-wrap: wrap; gap: .6rem;
+      margin-bottom: 1.25rem;
+    }
+    .price-hero .was { color: #94a3b8; text-decoration: line-through; font-size: 1.1rem; font-weight: 600; }
+    .price-hero .now { font-size: 2.5rem; font-weight: 800; color: var(--cta); line-height: 1; }
+    .price-hero .badge-save {
+      background: #fef2f2; color: var(--danger);
+      font-size: .75rem; font-weight: 800; padding: .3rem .65rem; border-radius: 8px;
+    }
+    .hero-ctas { display: flex; flex-direction: column; gap: .65rem; margin-bottom: 1rem; }
+    @media (min-width: 500px) { .hero-ctas { flex-direction: row; } .hero-ctas .btn-lg { width: auto; flex: 1; } }
+    .trust-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .pill {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .75rem; font-weight: 700; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--line);
+      padding: .4rem .7rem; border-radius: 999px;
+    }
 
-    section { padding: 2.5rem 1.2rem; }
-    .section-title { font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 1.5rem; color: var(--blue); }
-    .section-title span { color: var(--text); }
-    .how { background: var(--blue-bg); }
-    .steps { display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: 0 auto; }
-    .step { background: #fff; border: 2px solid var(--blue-border); border-radius: 14px; padding: 1rem 1.2rem; display: flex; align-items: flex-start; gap: 1rem; }
-    .step-num { background: var(--blue); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; flex-shrink: 0; }
-    .step-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: .2rem; }
-    .step-text p { font-size: .88rem; color: #555; line-height: 1.4; }
-    .modes { background: #fff; }
-    .modes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 520px; margin: 0 auto; }
-    .mode-card { background: var(--blue-bg); border: 1px solid var(--blue-border); border-radius: 14px; padding: 1rem; text-align: center; }
-    .mode-card .icon { font-size: 1.8rem; margin-bottom: .4rem; }
-    .mode-card h3 { font-size: .9rem; font-weight: 700; color: var(--blue); margin-bottom: .2rem; }
-    .mode-card p { font-size: .78rem; color: #555; line-height: 1.3; }
-    .who { background: var(--gray); }
-    .who-grid { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; max-width: 520px; margin: 0 auto; }
-    .who-tag { background: #fff; border: 2px solid var(--blue-border); border-radius: 30px; padding: .5rem 1.1rem; font-size: .88rem; font-weight: 600; color: var(--blue); display: flex; align-items: center; gap: .4rem; }
+    /* Product visual */
+    .product-stage {
+      position: relative;
+      background: linear-gradient(160deg, #e0f2fe 0%, #f0f9ff 50%, #fff 100%);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      border: 1px solid #bae6fd;
+      box-shadow: var(--shadow-lg);
+    }
+    .product-stage::before {
+      content: ''; position: absolute; inset: 1rem;
+      border: 2px dashed rgba(14, 165, 233, .2); border-radius: 20px; pointer-events: none;
+    }
+    .product-img {
+      width: 100%; border-radius: 16px;
+      filter: drop-shadow(0 20px 30px rgba(15, 23, 42, .15));
+    }
+    .float-tag {
+      position: absolute; background: var(--surface);
+      border: 1px solid var(--line); border-radius: 12px;
+      padding: .5rem .75rem; font-size: .72rem; font-weight: 700;
+      box-shadow: var(--shadow); display: flex; align-items: center; gap: .4rem;
+    }
+    .float-tag.t1 { top: 1rem; left: .5rem; }
+    .float-tag.t2 { bottom: 1.5rem; right: .5rem; }
+    .float-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
 
-    /* VIDEO */
-    .video-sec { background: #0d1b2e; color: #fff; text-align: center; }
-    .video-sec .section-title { color: var(--gold); }
-    .video-wrap { max-width: 500px; margin: 0 auto 1rem; border-radius: 14px; overflow: hidden; }
-    .video-wrap iframe { width: 100%; height: 280px; border: none; display: block; }
+    /* Marquee trust */
+    .marquee-wrap {
+      background: var(--surface); border-block: 1px solid var(--line);
+      padding: .9rem 0; overflow: hidden;
+    }
+    .marquee {
+      display: flex; gap: 2.5rem; animation: scroll 28s linear infinite;
+      white-space: nowrap; width: max-content;
+    }
+    .marquee span { font-size: .82rem; font-weight: 700; color: var(--muted); }
+    @keyframes scroll { to { transform: translateX(-50%); } }
 
-    /* REVIEWS */
-    .reviews { background: #fff; }
-    .reviews-grid { display: flex; flex-direction: column; gap: 1rem; max-width: 520px; margin: 0 auto; }
-    .review-card { background: var(--blue-bg); border: 1px solid var(--blue-border); border-radius: 14px; padding: 1rem 1.2rem; }
-    .reviewer { display: flex; align-items: center; gap: .7rem; margin-bottom: .5rem; }
-    .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; flex-shrink: 0; }
-    .reviewer-info .name { font-weight: 700; font-size: .95rem; }
-    .reviewer-info .city { font-size: .78rem; color: #888; }
-    .stars { color: var(--gold); font-size: 1.1rem; margin-bottom: .3rem; }
-    .review-text { font-size: .88rem; color: #444; line-height: 1.5; font-style: italic; }
-    .verified { font-size: .75rem; color: var(--teal); margin-top: .4rem; font-weight: 600; }
+    /* Sections */
+    section { padding: 3.5rem 0; }
+    .section-head { text-align: center; max-width: 560px; margin: 0 auto 2.5rem; }
+    .section-head .label {
+      display: inline-block; color: var(--brand-dark); font-size: .75rem;
+      font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem;
+    }
+    .section-head h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; letter-spacing: -.02em; margin-bottom: .6rem; }
+    .section-head p { color: var(--muted); font-size: .95rem; }
 
-    /* PRICING */
-    .pricing { background: var(--gray); }
-    .price-card { background: linear-gradient(135deg, var(--blue-bg), #fff); border: 2px solid var(--blue); border-radius: 20px; padding: 1.5rem; max-width: 400px; margin: 0 auto; text-align: center; box-shadow: 0 4px 24px rgba(21,101,192,.12); }
-    .price-card .tag { background: var(--red); color: #fff; display: inline-block; padding: .25rem .8rem; border-radius: 20px; font-size: .8rem; font-weight: 700; margin-bottom: .8rem; }
-    .price-card .main-price { font-size: 3rem; font-weight: 900; color: var(--blue); line-height: 1; }
-    .price-card .old-price { font-size: 1rem; color: #aaa; text-decoration: line-through; margin-bottom: .5rem; }
-    .includes { list-style: none; text-align: left; margin: 1rem 0; display: flex; flex-direction: column; gap: .4rem; }
-    .includes li { font-size: .88rem; display: flex; gap: .5rem; }
-    .includes li::before { content: "✓"; color: var(--blue); font-weight: 800; }
-    .btn-order { display: block; width: 100%; background: var(--blue); color: #fff; font-size: 1.1rem; font-weight: 800; padding: 1rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 4px 18px rgba(21,101,192,.3); }
-    .btn-order:hover { background: var(--blue-mid); }
-    .reassurance { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 1rem; font-size: .78rem; color: #666; }
+    /* Pain → solution */
+    .pain-grid { display: grid; gap: 1rem; }
+    @media (min-width: 700px) { .pain-grid { grid-template-columns: 1fr 1fr; } }
+    .pain-card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 1.25rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .pain-card .icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      display: grid; place-items: center; font-size: 1.25rem;
+    }
+    .pain-card.bad .icon { background: #fef2f2; }
+    .pain-card.good .icon { background: var(--accent-soft); }
+    .pain-card h3 { font-size: .95rem; font-weight: 800; margin-bottom: .25rem; }
+    .pain-card p { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+    /* Features */
+    .features { background: var(--surface); border-block: 1px solid var(--line); }
+    .feat-grid {
+      display: grid; gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    .feat {
+      text-align: center; padding: 1.25rem 1rem;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--bg); transition: border-color .2s, transform .2s;
+    }
+    .feat:hover { border-color: var(--brand); transform: translateY(-2px); }
+    .feat .f-icon { font-size: 1.75rem; margin-bottom: .5rem; }
+    .feat h3 { font-size: .88rem; font-weight: 800; margin-bottom: .2rem; }
+    .feat p { font-size: .75rem; color: var(--muted); line-height: 1.4; }
+
+    /* Steps */
+    .steps { display: grid; gap: 1rem; }
+    @media (min-width: 700px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+    .step {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 1.25rem; position: relative;
+    }
+    .step-num {
+      width: 32px; height: 32px; border-radius: 10px;
+      background: var(--ink); color: #fff;
+      display: grid; place-items: center; font-weight: 800; font-size: .85rem;
+      margin-bottom: .75rem;
+    }
+    .step h3 { font-size: .9rem; font-weight: 800; margin-bottom: .35rem; }
+    .step p { font-size: .8rem; color: var(--muted); line-height: 1.45; }
+
+    /* Video */
+    .video-block {
+      background: var(--ink); color: #fff; border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem; text-align: center;
+    }
+    .video-block h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: .5rem; }
+    .video-block p { color: #94a3b8; font-size: .9rem; margin-bottom: 1.25rem; }
+    .video-frame {
+      border-radius: 14px; overflow: hidden; max-width: 640px; margin: 0 auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,.4);
+    }
+    .video-frame iframe { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+
+    /* Reviews */
+    .reviews-grid { display: grid; gap: 1rem; }
+    @media (min-width: 700px) { .reviews-grid { grid-template-columns: repeat(3, 1fr); } }
+    .review {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 1.25rem;
+      display: flex; flex-direction: column; gap: .75rem;
+    }
+    .review-top { display: flex; align-items: center; gap: .75rem; }
+    .avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), #6366f1);
+      color: #fff; display: grid; place-items: center; font-weight: 800;
+    }
+    .review .name { font-weight: 800; font-size: .9rem; }
+    .review .meta { font-size: .75rem; color: var(--muted); }
+    .stars { color: var(--gold); font-size: .95rem; letter-spacing: 1px; }
+    .review q { font-size: .85rem; color: #334155; line-height: 1.55; font-style: normal; }
+    .verified { font-size: .72rem; font-weight: 700; color: var(--accent); margin-top: auto; }
+
+    /* Bundles */
+    .bundles { background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%); }
+    .bundle-grid { display: grid; gap: 1rem; }
+    @media (min-width: 700px) { .bundle-grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; } }
+    .bundle {
+      background: var(--surface); border: 2px solid var(--line);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s;
+      position: relative;
+    }
+    .bundle:hover { border-color: var(--brand); transform: translateY(-3px); }
+    .bundle.selected { border-color: var(--cta); box-shadow: 0 0 0 4px rgba(249,115,22,.15); }
+    .bundle.popular::before {
+      content: 'Le plus vendu'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--cta); color: #fff; font-size: .68rem; font-weight: 800;
+      padding: .25rem .75rem; border-radius: 999px; white-space: nowrap;
+    }
+    .bundle .qty-label { font-size: .8rem; font-weight: 700; color: var(--muted); margin-bottom: .25rem; }
+    .bundle .bundle-price { font-size: 2rem; font-weight: 800; color: var(--ink); }
+    .bundle .per-unit { font-size: .75rem; color: var(--muted); margin-bottom: .75rem; }
+    .bundle .save { display: inline-block; background: var(--accent-soft); color: #047857; font-size: .72rem; font-weight: 800; padding: .25rem .6rem; border-radius: 6px; margin-bottom: .75rem; }
+    .bundle ul { list-style: none; text-align: left; font-size: .78rem; color: var(--muted); }
+    .bundle ul li { padding: .25rem 0; display: flex; gap: .4rem; }
+    .bundle ul li::before { content: '✓'; color: var(--accent); font-weight: 800; }
+
+    /* Box contents */
+    .box-grid {
+      display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+    .box-item {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 1rem; text-align: center;
+    }
+    .box-item .bi { font-size: 1.6rem; margin-bottom: .4rem; }
+    .box-item span { font-size: .8rem; font-weight: 700; }
+
+    /* Compare */
+    .compare {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius-lg); overflow: hidden; max-width: 640px; margin: 0 auto;
+    }
+    .compare-row {
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+      padding: .85rem 1rem; font-size: .82rem; border-bottom: 1px solid var(--line);
+      align-items: center;
+    }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-row.head { background: var(--bg); font-weight: 800; font-size: .78rem; }
+    .compare-row .win { color: var(--accent); font-weight: 800; }
+    .compare-row .lose { color: #94a3b8; }
 
     /* FAQ */
-    .faq { background: #fff; }
-    .faq-list { max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; gap: .8rem; }
-    details { background: var(--blue-bg); border: 1px solid var(--blue-border); border-radius: 12px; padding: .9rem 1.1rem; cursor: pointer; }
-    summary { font-weight: 700; font-size: .95rem; color: var(--blue); list-style: none; display: flex; justify-content: space-between; align-items: center; }
-    summary::after { content: "+"; font-size: 1.2rem; font-weight: 800; }
-    details[open] summary::after { content: "−"; }
-    details p { margin-top: .7rem; font-size: .88rem; color: #555; line-height: 1.5; }
+    .faq-list { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: .6rem; }
+    details {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 12px; padding: 1rem 1.15rem;
+    }
+    summary {
+      font-weight: 800; font-size: .92rem; cursor: pointer;
+      list-style: none; display: flex; justify-content: space-between; gap: 1rem;
+    }
+    summary::after { content: '+'; font-size: 1.2rem; color: var(--brand); font-weight: 800; }
+    details[open] summary::after { content: '−'; }
+    details p { margin-top: .65rem; font-size: .85rem; color: var(--muted); line-height: 1.55; }
 
-    footer { background: #0d1b2e; color: rgba(255,255,255,.7); padding: 1.5rem 1.2rem; text-align: center; font-size: .8rem; }
-    footer .footer-logo { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: .5rem; }
-    footer .footer-links { display: flex; justify-content: center; gap: 1.2rem; margin: .5rem 0; flex-wrap: wrap; }
-    footer .footer-links a:hover { color: var(--gold); }
+    /* CTA band */
+    .cta-band {
+      background: linear-gradient(135deg, #0f172a, #1e40af);
+      color: #fff; border-radius: var(--radius-lg);
+      padding: 2.5rem 1.5rem; text-align: center;
+    }
+    .cta-band h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: .5rem; }
+    .cta-band p { color: #94a3b8; margin-bottom: 1.25rem; font-size: .95rem; }
+    .cta-band .btn-primary { max-width: 320px; margin: 0 auto; }
 
-    .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; z-index: 99; background: var(--blue); padding: .8rem 1.2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -4px 20px rgba(0,0,0,.2); }
-    .sticky-cta .sticky-price { color: #fff; font-size: .9rem; }
-    .sticky-cta .sticky-price strong { font-size: 1.2rem; }
-    .sticky-cta .sticky-price del { opacity: .6; font-size: .8rem; }
-    .sticky-cta button { background: var(--gold); color: #1a1a1a; font-weight: 800; font-size: 1rem; padding: .6rem 1.4rem; border-radius: 50px; border: none; cursor: pointer; }
+    footer {
+      background: var(--ink); color: #94a3b8;
+      padding: 2rem 0; font-size: .8rem; text-align: center;
+    }
+    footer .f-logo { color: #fff; font-weight: 800; font-size: 1.1rem; margin-bottom: .75rem; }
+    footer a:hover { color: #fff; }
+    .footer-links { display: flex; justify-content: center; gap: 1.25rem; flex-wrap: wrap; margin-bottom: .75rem; }
 
-    /* MODAL */
-    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.6); align-items: flex-end; justify-content: center; }
+    /* Sticky */
+    .sticky-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
+      background: rgba(255,255,255,.95); backdrop-filter: blur(10px);
+      border-top: 1px solid var(--line);
+      padding: .75rem 1rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      box-shadow: 0 -8px 30px rgba(15,23,42,.08);
+    }
+    .sticky-bar .s-price del { color: #94a3b8; font-size: .8rem; }
+    .sticky-bar .s-price strong { font-size: 1.25rem; font-weight: 800; color: var(--cta); }
+    .sticky-bar .s-sub { font-size: .68rem; color: var(--muted); font-weight: 600; }
+    .sticky-bar .btn-primary { padding: .65rem 1.25rem; font-size: .88rem; white-space: nowrap; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(15,23,42,.55); backdrop-filter: blur(4px);
+      align-items: flex-end; justify-content: center;
+    }
     .modal-overlay.open { display: flex; }
-    .modal { background: #fff; width: 100%; max-width: 480px; border-radius: 20px 20px 0 0; padding: 1.5rem 1.2rem 2.5rem; max-height: 90vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
-    .modal-header h2 { font-size: 1.1rem; color: var(--blue); }
-    .modal-close { background: #eee; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.1rem; cursor: pointer; }
-    .modal label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .3rem; color: #333; }
-    .modal input, .modal select { width: 100%; padding: .75rem 1rem; border: 1.5px solid #ddd; border-radius: 10px; font-size: 1rem; margin-bottom: 1rem; outline: none; transition: border .2s; }
-    .modal input:focus, .modal select:focus { border-color: var(--blue); }
-    .summary-box { background: var(--blue-bg); border: 1px solid var(--blue-border); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
-    .s-row { display: flex; justify-content: space-between; font-size: .88rem; margin-bottom: .3rem; }
-    .s-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1rem; color: var(--blue); border-top: 1px solid var(--blue-border); padding-top: .5rem; margin-top: .5rem; }
-    .btn-whatsapp { display: flex; align-items: center; justify-content: center; gap: .6rem; width: 100%; background: #25d366; color: #fff; font-size: 1.1rem; font-weight: 800; padding: 1rem; border-radius: 50px; border: none; cursor: pointer; }
-    .btn-whatsapp:hover { background: #1ebe5d; }
-    .modal-note { font-size: .75rem; color: #888; text-align: center; margin-top: .7rem; }
-
-    /* NOTIF BANNER */
-    #notif-banner { display: none; background: #1565c0; color: #fff; padding: .7rem 1rem; text-align: center; font-size: .85rem; gap: .8rem; align-items: center; justify-content: center; flex-wrap: wrap; }
-    #notif-banner.show { display: flex; }
-    #notif-banner button { background: var(--gold); color: #1a1a1a; border: none; border-radius: 20px; padding: .3rem .9rem; font-weight: 700; cursor: pointer; font-size: .82rem; }
-    #notif-banner .dismiss { background: transparent; color: rgba(255,255,255,.6); font-size: .75rem; text-decoration: underline; margin-left: .5rem; }
-
-    /* Success toast */
-    #toast { display:none; position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:#00695c; color:#fff; padding:.8rem 1.4rem; border-radius:30px; font-weight:700; z-index:300; font-size:.9rem; box-shadow:0 4px 20px rgba(0,0,0,.3); }
+    .modal {
+      background: var(--surface); width: 100%; max-width: 480px;
+      border-radius: 24px 24px 0 0; padding: 1.5rem 1.25rem 2rem;
+      max-height: 92vh; overflow-y: auto;
+      animation: slideUp .25s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-handle { width: 40px; height: 4px; background: var(--line); border-radius: 4px; margin: 0 auto 1rem; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .modal-header h2 { font-size: 1.1rem; font-weight: 800; }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 50%; border: none;
+      background: var(--bg); font-size: 1.1rem; color: var(--muted);
+    }
+    .field { margin-bottom: .9rem; }
+    .field label { display: block; font-size: .78rem; font-weight: 700; color: var(--muted); margin-bottom: .35rem; text-transform: uppercase; letter-spacing: .04em; }
+    .field input, .field select {
+      width: 100%; padding: .8rem 1rem; border: 1.5px solid var(--line);
+      border-radius: 12px; font-size: 1rem; font-family: inherit;
+      background: var(--bg); transition: border-color .15s;
+    }
+    .field input:focus, .field select:focus { outline: none; border-color: var(--brand); background: #fff; }
+    .order-summary {
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: 14px; padding: 1rem; margin: 1rem 0;
+    }
+    .order-summary .row { display: flex; justify-content: space-between; font-size: .85rem; padding: .2rem 0; color: var(--muted); }
+    .order-summary .row.total { border-top: 1px solid var(--line); margin-top: .5rem; padding-top: .65rem; font-weight: 800; font-size: 1.05rem; color: var(--ink); }
+    .order-summary .free { color: var(--accent); font-weight: 800; }
+    .btn-wa {
+      width: 100%; background: #25d366; color: #fff;
+      padding: 1rem; border-radius: 14px; border: none;
+      font-size: 1rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, .35);
+    }
+    .btn-wa:hover { background: #1ebe5d; }
+    .modal-note { text-align: center; font-size: .72rem; color: var(--muted); margin-top: .65rem; }
   </style>
 </head>
 <body>
 
-<!-- NOTIFICATION BANNER -->
-<div id="notif-banner">
-  <span>🔔 Activez les notifications pour suivre votre commande</span>
-  <button onclick="askNotifPermission()">Activer</button>
-  <button class="dismiss" onclick="dismissNotifBanner()">Plus tard</button>
-</div>
-
-<div id="toast">✅ Commande enregistrée !</div>
-
-<div class="banner">⚡ Promo -35% ce weekend • Livraison GRATUITE partout en Tunisie 🇹🇳</div>
+<div class="announce">🔥 <span>-35%</span> ce weekend · Livraison <span>GRATUITE</span> partout en Tunisie · Paiement à la livraison</div>
 
 <nav>
-  <div class="logo">⚡ MasseurPro</div>
-  <div class="links">
-    <a href="#how">Comment ?</a>
-    <a href="#reviews">Avis</a>
-    <a href="#pricing">Prix</a>
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">⚡</div>
+      MasseurPro
+    </a>
+    <div class="nav-links">
+      <a href="#features">Produit</a>
+      <a href="#how">Mode d'emploi</a>
+      <a href="#reviews">Avis</a>
+      <a href="#offers">Offres</a>
+    </div>
+    <button class="btn btn-primary" onclick="openModal()">Commander</button>
   </div>
-  <button class="cta-nav" onclick="openModal()">Commander</button>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <div class="hero-badge">⭐ Plus de 1 500 clients satisfaits en Tunisie</div>
-  <h1>Massez vos pieds en 15 minutes. Sans vous lever du canapé.</h1>
-  <p class="sub">Le tapis EMS Foot Massager utilise la technologie d'électrostimulation musculaire pour soulager les douleurs et la fatigue de vos pieds – comme un vrai massage professionnel.</p>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow">⚡ Technologie EMS · +1 500 clients en Tunisie</div>
+      <h1>Vos pieds fatigués ? <em>15 minutes</em> suffisent pour les soulager.</h1>
+      <p class="lead">L'<strong>EMS Foot Massager</strong> utilise l'électrostimulation musculaire — la même techno qu'en kiné — pour détendre vos pieds, améliorer la circulation et éliminer la fatigue. Depuis votre canapé.</p>
 
-  <div class="product-visual">
-    <img src="ems-product.jpg" alt="EMS Foot Massager – Tapis masseur électrique des pieds" loading="eager">
-  </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>9</strong><span>modes massage</span></div>
+        <div class="stat"><strong>19</strong><span>niveaux EMS</span></div>
+        <div class="stat"><strong>15 min</strong><span>par session</span></div>
+      </div>
 
-  <ul class="hero-bullets">
-    <li>Soulagement immédiat des douleurs de pieds en 15 minutes</li>
-    <li>9 modes de massage + 19 niveaux d'intensité</li>
-    <li>Améliore la circulation sanguine – idéal si debout toute la journée</li>
-    <li>USB rechargeable, silencieux, utilisable partout</li>
-  </ul>
+      <div class="price-hero">
+        <span class="was">49 DT</span>
+        <span class="now">29 DT</span>
+        <span class="badge-save">ÉCONOMISEZ 20 DT</span>
+      </div>
 
-  <div class="price-block">
-    <span class="price-old">49 DT</span>
-    <span class="price-new">29 DT</span>
-    <span class="price-badge">-35%</span>
-  </div>
+      <div class="hero-ctas">
+        <button class="btn btn-primary btn-lg" onclick="openModal()">Commander maintenant</button>
+        <a href="#video" class="btn btn-ghost btn-lg">Voir la démo ▶</a>
+      </div>
 
-  <button class="btn-hero" onclick="openModal()">Commander maintenant (paiement à la livraison)</button>
-
-  <div class="trust-row">
-    <span>🚚 Livraison 1-3 jours</span>
-    <span>💳 Paiement à la livraison</span>
-    <span>⚡ EMS technologie</span>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
-  <h2 class="section-title">Comment ça <span>marche ?</span></h2>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text"><h3>Posez vos pieds sur le tapis</h3><p>Branchez le tapis, posez vos pieds dessus confortablement. Pieds nus pour un meilleur contact.</p></div>
+      <div class="trust-pills">
+        <span class="pill">🚚 Livraison 24-72h</span>
+        <span class="pill">💳 Paiement à la livraison</span>
+        <span class="pill">↩️ Échange 7 jours</span>
+        <span class="pill">🔋 USB rechargeable</span>
+      </div>
     </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text"><h3>Choisissez votre mode</h3><p>9 modes disponibles (massage, pétrissage, acupression...). Commencez au niveau 1 et augmentez selon votre confort.</p></div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text"><h3>Détendez-vous 15-30 minutes</h3><p>Le tapis stimule les muscles et points d'acupression de vos pieds pendant que vous regardez la TV ou lisez.</p></div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-text"><h3>Résultat immédiat</h3><p>Pieds légers, douleurs soulagées, circulation améliorée. Résultat dès la première session.</p></div>
+
+    <div class="product-stage">
+      <img src="ems-product.jpg" alt="EMS Foot Massager – tapis masseur électrique des pieds" class="product-img" loading="eager">
+      <div class="float-tag t1"><span class="dot"></span> En stock · Expédition rapide</div>
+      <div class="float-tag t2">⭐ 4.8/5 · 312 avis</div>
     </div>
   </div>
 </section>
 
-<!-- 9 MODES -->
-<section class="modes">
-  <h2 class="section-title">9 modes, <span>19 niveaux</span></h2>
-  <div class="modes-grid">
-    <div class="mode-card"><div class="icon">💆</div><h3>Massage</h3><p>Relaxation profonde des muscles plantaires</p></div>
-    <div class="mode-card"><div class="icon">🔄</div><h3>Pétrissage</h3><p>Stimulation circulatoire intense</p></div>
-    <div class="mode-card"><div class="icon">⚡</div><h3>Acupression</h3><p>Stimulation des points d'énergie</p></div>
-    <div class="mode-card"><div class="icon">🌊</div><h3>Ondes</h3><p>Relaxation progressive et apaisante</p></div>
-    <div class="mode-card"><div class="icon">🔥</div><h3>Pulsation</h3><p>Décontraction musculaire profonde</p></div>
-    <div class="mode-card"><div class="icon">✨</div><h3>Combiné</h3><p>Mix de plusieurs modes pour un effet optimal</p></div>
-    <div class="mode-card"><div class="icon">🧘</div><h3>Doux</h3><p>Mode débutant, sensation légère</p></div>
-    <div class="mode-card"><div class="icon">💪</div><h3>Intensif</h3><p>Mode sportif, récupération musculaire</p></div>
-    <div class="mode-card"><div class="icon">🎯</div><h3>Précision</h3><p>Ciblage de zones spécifiques</p></div>
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee">
+    <span>🚚 Livraison gratuite Tunisie</span><span>💳 COD accepté</span><span>⚡ EMS professionnel</span><span>🔋 Rechargeable USB</span><span>📦 Télécommande incluse</span><span>✅ +1 500 clients satisfaits</span>
+    <span>🚚 Livraison gratuite Tunisie</span><span>💳 COD accepté</span><span>⚡ EMS professionnel</span><span>🔋 Rechargeable USB</span><span>📦 Télécommande incluse</span><span>✅ +1 500 clients satisfaits</span>
+  </div>
+</div>
+
+<!-- PAIN / SOLUTION -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Le problème</span>
+      <h2>Pieds lourds en fin de journée ?</h2>
+      <p>Si vous passez des heures debout ou en mouvement, vos pieds encaissent tout. Ce tapis EMS cible la cause, pas juste le symptôme.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card bad">
+        <div class="icon">😣</div>
+        <div><h3>Sans traitement</h3><p>Douleurs persistantes, engourdissements, mauvaise circulation. Un massage salon coûte 40-60 DT par séance.</p></div>
+      </div>
+      <div class="pain-card good">
+        <div class="icon">✨</div>
+        <div><h3>Avec EMS Foot Massager</h3><p>Soulagement en 15 min à domicile. Un seul achat à 29 DT — utilisable tous les jours, toute la famille.</p></div>
+      </div>
+      <div class="pain-card bad">
+        <div class="icon">⏰</div>
+        <div><h3>Pas le temps</h3><p>Prendre rendez-vous, se déplacer, attendre… Impossible avec un emploi du temps chargé.</p></div>
+      </div>
+      <div class="pain-card good">
+        <div class="icon">🏠</div>
+        <div><h3>À la maison, quand vous voulez</h3><p>Posez vos pieds, choisissez votre mode, détendez-vous devant la TV. Arrêt auto après 15 min.</p></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- FOR WHO -->
-<section class="who">
-  <h2 class="section-title">Idéal <span>pour vous si...</span></h2>
-  <div class="who-grid">
-    <div class="who-tag">👩‍⚕️ Infirmier(e)</div>
-    <div class="who-tag">👩‍🏫 Enseignant(e)</div>
-    <div class="who-tag">🛍️ Vendeur/Vendeuse</div>
-    <div class="who-tag">👮 Agent de sécurité</div>
-    <div class="who-tag">🏠 Femme au foyer</div>
-    <div class="who-tag">⚽ Sportif(ve)</div>
-    <div class="who-tag">👴 Personne âgée</div>
-    <div class="who-tag">💼 Debout toute la journée</div>
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Caractéristiques</span>
+      <h2>Un spa professionnel sous vos pieds</h2>
+      <p>Conçu pour les personnes actives, les professionnels debout et toute la famille.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat"><div class="f-icon">⚡</div><h3>Technologie EMS</h3><p>Stimulation musculaire électrique — efficacité prouvée en kinésithérapie</p></div>
+      <div class="feat"><div class="f-icon">🎛️</div><h3>9 modes + 19 niveaux</h3><p>Du massage doux à l'intensif — vous contrôlez tout</p></div>
+      <div class="feat"><div class="f-icon">🩸</div><h3>Circulation sanguine</h3><p>Réduit gonflements et sensation de jambes lourdes</p></div>
+      <div class="feat"><div class="f-icon">🔇</div><h3>Silencieux</h3><p>Utilisable le soir sans déranger personne</p></div>
+      <div class="feat"><div class="f-icon">🔋</div><h3>USB rechargeable</h3><p>Plusieurs sessions par charge — écran LCD</p></div>
+      <div class="feat"><div class="f-icon">📱</div><h3>Télécommande</h3><p>Contrôle à distance sans vous pencher</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Simple</span>
+      <h2>Prêt en 30 secondes</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Branchez & posez</h3><p>Pieds nus sur le tapis pour un contact optimal avec les électrodes EMS.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Choisissez le mode</h3><p>Commencez niveau 1-2, montez progressivement selon votre confort.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Détendez-vous</h3><p>15 à 30 min par session. Le tapis s'arrête automatiquement.</p></div>
+      <div class="step"><div class="step-num">4</div><h3>Ressentez la différence</h3><p>Pieds légers, tension relâchée — dès la première utilisation.</p></div>
+    </div>
   </div>
 </section>
 
 <!-- VIDEO -->
-<section class="video-sec" id="video">
-  <h2 class="section-title">Vidéo <span>démo</span></h2>
-  <div class="video-wrap">
-    <iframe
-      src="https://www.youtube.com/embed/E2qf97HSFz4?rel=0&modestbranding=1"
-      title="EMS Foot Massager démonstration"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+<section id="video">
+  <div class="container">
+    <div class="video-block">
+      <h2>Voyez-le en action</h2>
+      <p>Démonstration complète du EMS Foot Massager — modes, intensité et résultats.</p>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/E2qf97HSFz4?rel=0&modestbranding=1" title="EMS Foot Massager démonstration" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- REVIEWS -->
-<section class="reviews" id="reviews">
-  <h2 class="section-title">Ils ont <span>testé</span></h2>
-  <div class="reviews-grid">
-    <div class="review-card">
-      <div class="reviewer"><div class="avatar">M</div><div class="reviewer-info"><div class="name">Mohamed S.</div><div class="city">Tunis</div></div></div>
-      <div class="stars">★★★★★</div>
-      <div class="review-text">"Je travaille dans la sécurité debout 12h par jour. Ce tapis a changé ma vie. Après 15 minutes le soir, mes pieds sont comme neufs. J'en ai commandé un 2ème pour ma femme !"</div>
-      <div class="verified">✓ Achat vérifié</div>
+<section id="reviews">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Témoignages</span>
+      <h2>Ils l'ont adopté en Tunisie</h2>
     </div>
-    <div class="review-card">
-      <div class="reviewer"><div class="avatar">L</div><div class="reviewer-info"><div class="name">Leila B.</div><div class="city">Sfax</div></div></div>
-      <div class="stars">★★★★★</div>
-      <div class="review-text">"Infirmière depuis 15 ans, j'ai toujours eu des douleurs aux pieds. Avec ce tapis, je fais 20 minutes en regardant la TV et je me lève comme si je venais d'avoir un vrai massage. Incroyable !"</div>
-      <div class="verified">✓ Achat vérifié</div>
-    </div>
-    <div class="review-card">
-      <div class="reviewer"><div class="avatar">A</div><div class="reviewer-info"><div class="name">Ahmed K.</div><div class="city">Sousse</div></div></div>
-      <div class="stars">★★★★☆</div>
-      <div class="review-text">"Livraison en 2 jours, produit conforme. J'ai commencé au niveau 3 et monté jusqu'au 8. La sensation est vraiment de la stimulation musculaire, pas juste des vibrations. Je recommande."</div>
-      <div class="verified">✓ Achat vérifié</div>
+    <div class="reviews-grid">
+      <div class="review">
+        <div class="review-top">
+          <div class="avatar">M</div>
+          <div><div class="name">Mohamed S.</div><div class="meta">Agent sécurité · Tunis</div></div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <q>12h debout chaque jour. Ce tapis m'a sauvé — 15 minutes le soir et mes pieds sont comme neufs. J'en ai pris un 2ème pour ma femme.</q>
+        <div class="verified">✓ Achat vérifié · Livraison 2 jours</div>
+      </div>
+      <div class="review">
+        <div class="review-top">
+          <div class="avatar">L</div>
+          <div><div class="name">Leila B.</div><div class="meta">Infirmière · Sfax</div></div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <q>15 ans de carrière, pieds toujours douloureux. Maintenant je fais ma session en regardant la TV. C'est comme un vrai massage pro, mais à la maison.</q>
+        <div class="verified">✓ Achat vérifié · COD sans problème</div>
+      </div>
+      <div class="review">
+        <div class="review-top">
+          <div class="avatar">A</div>
+          <div><div class="name">Ahmed K.</div><div class="meta">Commerçant · Sousse</div></div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <q>Produit conforme, livraison rapide. La sensation EMS est réelle — pas juste des vibrations. Niveau 3 pour commencer, monté au 8 en une semaine.</q>
+        <div class="verified">✓ Achat vérifié · Recommande à 100%</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <h2 class="section-title">Prix & <span>Commande</span></h2>
-  <div class="price-card">
-    <span class="tag">PROMO -35% • Stock limité</span>
-    <div class="old-price">Ancien prix : 49 DT</div>
-    <div class="main-price">29 DT</div>
-    <p style="color:#888;font-size:.82rem;margin:.3rem 0 1rem">Livraison incluse • Paiement à la livraison</p>
-    <ul class="includes">
-      <li>Tapis EMS Foot Massager (modèle 9 modes)</li>
-      <li>Télécommande de contrôle</li>
-      <li>Câble de recharge USB</li>
-      <li>Notice d'utilisation</li>
-      <li>Livraison gratuite partout en Tunisie</li>
-      <li>Garantie satisfaction 7 jours</li>
-    </ul>
-    <button class="btn-order" onclick="openModal()">Commander maintenant (paiement à la livraison)</button>
-    <div class="reassurance">
-      <span>🚚 1-3 jours</span><span>💳 COD</span><span>🔒 Sécurisé</span><span>↩️ 7 jours</span>
+<!-- BUNDLES -->
+<section class="bundles" id="offers">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Offres</span>
+      <h2>Choisissez votre pack</h2>
+      <p>Livraison gratuite sur toutes les offres. Paiement à la livraison uniquement.</p>
+    </div>
+    <div class="bundle-grid">
+      <div class="bundle" data-qty="1" onclick="selectBundle(1)">
+        <div class="qty-label">Solo</div>
+        <div class="bundle-price">29 DT</div>
+        <div class="per-unit">29 DT / tapis</div>
+        <ul>
+          <li>1 × EMS Foot Massager</li>
+          <li>Télécommande + câble USB</li>
+          <li>Livraison gratuite</li>
+        </ul>
+      </div>
+      <div class="bundle popular selected" data-qty="2" onclick="selectBundle(2)">
+        <div class="qty-label">Duo · Couple</div>
+        <div class="bundle-price">54 DT</div>
+        <div class="per-unit">27 DT / tapis</div>
+        <span class="save">Économisez 4 DT</span>
+        <ul>
+          <li>2 × EMS Foot Massager</li>
+          <li>Idéal couple / parents</li>
+          <li>Livraison gratuite</li>
+        </ul>
+      </div>
+      <div class="bundle" data-qty="3" onclick="selectBundle(3)">
+        <div class="qty-label">Famille</div>
+        <div class="bundle-price">79 DT</div>
+        <div class="per-unit">26 DT / tapis</div>
+        <span class="save">Économisez 8 DT</span>
+        <ul>
+          <li>3 × EMS Foot Massager</li>
+          <li>Meilleur prix unitaire</li>
+          <li>Livraison gratuite</li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="btn btn-primary btn-lg" style="max-width:340px;margin:0 auto" onclick="openModal()">Commander mon pack →</button>
+    </div>
+  </div>
+</section>
+
+<!-- BOX -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Contenu</span>
+      <h2>Ce que vous recevez</h2>
+    </div>
+    <div class="box-grid">
+      <div class="box-item"><div class="bi">🦶</div><span>Tapis EMS Foot Massager</span></div>
+      <div class="box-item"><div class="bi">🎮</div><span>Télécommande</span></div>
+      <div class="box-item"><div class="bi">🔌</div><span>Câble USB</span></div>
+      <div class="box-item"><div class="bi">📋</div><span>Notice FR/AR</span></div>
+      <div class="box-item"><div class="bi">📦</div><span>Emballage sécurisé</span></div>
+      <div class="box-item"><div class="bi">🚚</div><span>Livraison gratuite</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">Comparaison</span>
+      <h2>Pourquoi pas un massage salon ?</h2>
+    </div>
+    <div class="compare">
+      <div class="compare-row head"><span></span><span>EMS Foot Massager</span><span>Salon massage</span></div>
+      <div class="compare-row"><span>Coût</span><span class="win">29 DT une fois</span><span class="lose">40-60 DT/séance</span></div>
+      <div class="compare-row"><span>Disponibilité</span><span class="win">24h/24 à la maison</span><span class="lose">Sur rendez-vous</span></div>
+      <div class="compare-row"><span>Fréquence</span><span class="win">Tous les jours</span><span class="lose">1-2× par mois max</span></div>
+      <div class="compare-row"><span>Technologie EMS</span><span class="win">✓ Incluse</span><span class="lose">Variable</span></div>
+      <div class="compare-row"><span>Paiement</span><span class="win">COD à la livraison</span><span class="lose">Sur place</span></div>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="faq" id="faq">
-  <h2 class="section-title">Questions <span>fréquentes</span></h2>
-  <div class="faq-list">
-    <details><summary>Est-ce que ça fait mal ?</summary><p>Non. La sensation est celle de picotements doux, similaire à un massage électrique. Commencez au niveau 1 et montez progressivement. La plupart des gens trouvent cela très agréable après 2-3 minutes.</p></details>
-    <details><summary>Qui peut l'utiliser ?</summary><p>Toute personne adulte. Déconseillé aux femmes enceintes, personnes avec pacemaker, épilepsie, ou plaies ouvertes aux pieds.</p></details>
-    <details><summary>Combien de temps par session ?</summary><p>15 à 30 minutes par session. Maximum 2 sessions par jour. Le tapis s'arrête automatiquement après 15 minutes, vous pouvez relancer.</p></details>
-    <details><summary>Est-ce rechargeable ?</summary><p>Oui, via câble USB inclus. Une charge dure plusieurs sessions. Indicateur de batterie sur l'écran LCD.</p></details>
-    <details><summary>Ça marche vraiment ?</summary><p>La technologie EMS (Electrical Muscle Stimulation) est utilisée en kinésithérapie professionnelle. Elle stimule les muscles et améliore la circulation. Des milliers de clients en Tunisie l'utilisent avec satisfaction.</p></details>
-    <details><summary>Livraison et retour ?</summary><p>Livraison 1-3 jours partout en Tunisie, paiement à la livraison. Produit défectueux à réception : échange garanti sous 48h sur WhatsApp.</p></details>
+<section id="faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="label">FAQ</span>
+      <h2>Questions fréquentes</h2>
+    </div>
+    <div class="faq-list">
+      <details><summary>Est-ce que ça fait mal ?</summary><p>Non. Sensation de picotements doux, comme un massage électrique. Commencez au niveau 1 et augmentez progressivement. La plupart des utilisateurs trouvent cela agréable après 2-3 minutes.</p></details>
+      <details><summary>Qui peut l'utiliser ?</summary><p>Tout adulte en bonne santé. Déconseillé aux femmes enceintes, porteurs de pacemaker, personnes épileptiques ou avec plaies ouvertes aux pieds.</p></details>
+      <details><summary>Combien de temps par session ?</summary><p>15 à 30 minutes. Maximum 2 sessions par jour. Arrêt automatique après 15 minutes — relançable si besoin.</p></details>
+      <details><summary>Comment se passe la livraison ?</summary><p>Commande par WhatsApp ou formulaire, confirmation par téléphone, livraison en 24 à 72h partout en Tunisie. Vous payez uniquement à la réception.</p></details>
+      <details><summary>Produit défectueux ?</summary><p>Contactez-nous sur WhatsApp sous 7 jours. Échange garanti si le produit est défectueux à la réception.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section>
+  <div class="container">
+    <div class="cta-band">
+      <h2>Offre limitée · 29 DT seulement</h2>
+      <p>Stock limité ce weekend. Commandez maintenant, payez à la livraison.</p>
+      <button class="btn btn-primary btn-lg" onclick="openModal()">Je commande maintenant →</button>
+    </div>
   </div>
 </section>
 
 <footer>
-  <div class="footer-logo">⚡ MasseurPro</div>
-  <div class="footer-links">
-    <a href="#how">Comment ça marche</a>
-    <a href="#reviews">Avis</a>
-    <a href="#pricing">Commander</a>
-    <a href="#faq">FAQ</a>
+  <div class="container">
+    <div class="f-logo">⚡ MasseurPro</div>
+    <div class="footer-links">
+      <a href="#features">Produit</a>
+      <a href="#reviews">Avis</a>
+      <a href="#offers">Offres</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <p>EMS Foot Massager · Livraison Tunisie · Paiement à la livraison</p>
+    <p style="margin-top:.4rem;opacity:.6">© 2026 MasseurPro</p>
   </div>
-  <p>Contact : <a href="tel:+21600000000" style="color:var(--gold)">+216 XX XXX XXX</a></p>
-  <p style="margin-top:.5rem">© MasseurPro • Tunisie</p>
 </footer>
 
-<div class="sticky-cta" id="sticky">
-  <div class="sticky-price">
-    <del>49 DT</del> <strong>29 DT</strong><br>
-    <span style="font-size:.72rem;color:rgba(255,255,255,.7)">livraison incluse</span>
+<div class="sticky-bar" id="sticky">
+  <div class="s-price">
+    <del>49 DT</del> <strong id="sticky-price">29 DT</strong>
+    <div class="s-sub">Livraison gratuite · COD</div>
   </div>
-  <button onclick="openModal()">Commander →</button>
+  <button class="btn btn-primary" onclick="openModal()">Commander</button>
 </div>
 
-<!-- ORDER MODAL -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-header">
-      <h2>⚡ Commander – EMS Foot Massager</h2>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2>Finaliser ma commande</h2>
+      <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
     </div>
 
-    <label for="name">Nom & Prénom</label>
-    <input type="text" id="name" placeholder="Ex: Mohamed Ben Salem" autocomplete="name">
-
-    <label for="phone">Numéro de téléphone</label>
-    <input type="tel" id="phone" placeholder="Ex: 20 000 000" autocomplete="tel">
-
-    <label for="address">Gouvernorat / Ville</label>
-    <input type="text" id="address" placeholder="Ex: Sfax, Sakiet Ezzit">
-
-    <label for="qty">Quantité</label>
-    <select id="qty" onchange="updateSummary()">
-      <option value="1">1 tapis – 29 DT</option>
-      <option value="2">2 tapis – 54 DT (économisez 4 DT)</option>
-      <option value="3">3 tapis – 79 DT (économisez 8 DT)</option>
-    </select>
-
-    <div class="summary-box">
-      <div class="s-row"><span>Produit</span><span>EMS Foot Massager</span></div>
-      <div class="s-row"><span>Quantité</span><span id="sum-qty">1 tapis</span></div>
-      <div class="s-row"><span>Livraison</span><span style="color:var(--teal);font-weight:700">GRATUITE</span></div>
-      <div class="s-total"><span>Total à payer</span><span id="sum-total">29 DT</span></div>
+    <div class="field">
+      <label for="name">Nom & prénom</label>
+      <input type="text" id="name" placeholder="Ex: Mohamed Ben Salem" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="phone">Téléphone</label>
+      <input type="tel" id="phone" placeholder="Ex: 20 123 456" autocomplete="tel">
+    </div>
+    <div class="field">
+      <label for="governorate">Gouvernorat</label>
+      <select id="governorate">
+        <option value="">Sélectionnez...</option>
+        <option>Tunis</option><option>Ariana</option><option>Ben Arous</option><option>Manouba</option>
+        <option>Nabeul</option><option>Zaghouan</option><option>Bizerte</option><option>Béja</option>
+        <option>Jendouba</option><option>Le Kef</option><option>Siliana</option><option>Sousse</option>
+        <option>Monastir</option><option>Mahdia</option><option>Sfax</option><option>Kairouan</option>
+        <option>Kasserine</option><option>Sidi Bouzid</option><option>Gabès</option><option>Médenine</option>
+        <option>Tataouine</option><option>Gafsa</option><option>Tozeur</option><option>Kébili</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="address">Ville / Adresse</label>
+      <input type="text" id="address" placeholder="Ex: Sakiet Ezzit, rue principale">
+    </div>
+    <div class="field">
+      <label for="qty">Pack choisi</label>
+      <select id="qty" onchange="selectBundle(parseInt(this.value))">
+        <option value="1">1 tapis — 29 DT</option>
+        <option value="2" selected>2 tapis — 54 DT (économisez 4 DT)</option>
+        <option value="3">3 tapis — 79 DT (économisez 8 DT)</option>
+      </select>
     </div>
 
-    <button class="btn-whatsapp" onclick="submitOrder()">
+    <div class="order-summary">
+      <div class="row"><span>Produit</span><span>EMS Foot Massager</span></div>
+      <div class="row"><span>Quantité</span><span id="sum-qty">2 tapis</span></div>
+      <div class="row"><span>Livraison</span><span class="free">GRATUITE</span></div>
+      <div class="row total"><span>Total à payer</span><span id="sum-total">54 DT</span></div>
+    </div>
+
+    <button class="btn-wa" onclick="submitOrder()">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Confirmer ma commande
+      Confirmer sur WhatsApp
     </button>
-    <p class="modal-note">Commande enregistrée + confirmation WhatsApp. Paiement à la livraison.</p>
+    <p class="modal-note">🔒 Commande enregistrée · Paiement uniquement à la livraison</p>
   </div>
 </div>
 
-<!-- Supabase JS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<div id="toast" style="display:none;position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#047857;color:#fff;padding:.8rem 1.4rem;border-radius:999px;font-weight:700;font-size:.88rem;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.2)"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-  // ⚠️ REMPLACER ces valeurs après création du projet Supabase
   const SUPABASE_URL = 'https://bvqlsmonbnkbesyyxual.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2cWxzbW9uYm5rYmVzeXl4dWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTc1NTMsImV4cCI6MjA5ODQzMzU1M30.qw9uGV1WvPgY3lAsxumk3UgHYgANL5DxgowsAoPBfQc';
-  const WA_NUMBER = "21600000000"; // ⚠️ REMPLACER par votre vrai numéro
+  const WA_NUMBER = "21600000000";
 
   let supabase = null;
-  try {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  } catch(e) { console.warn('Supabase non configuré:', e.message); }
+  try { supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e) {}
 
   const PRICES = { 1: 29, 2: 54, 3: 79 };
   const QTY_LABELS = { 1: '1 tapis', 2: '2 tapis', 3: '3 tapis' };
+  let selectedQty = 2;
 
-  // PWA - Service Worker
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(() => console.log('SW registered'))
-        .catch(e => console.log('SW error:', e));
-    });
+    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
   }
 
-  // Show notif banner after 8s
-  setTimeout(() => {
-    if (Notification.permission === 'default') {
-      document.getElementById('notif-banner').classList.add('show');
-    }
-  }, 8000);
-
-  function dismissNotifBanner() {
-    document.getElementById('notif-banner').classList.remove('show');
+  function selectBundle(qty) {
+    selectedQty = qty;
+    document.getElementById('qty').value = qty;
+    document.querySelectorAll('.bundle').forEach(b => b.classList.toggle('selected', parseInt(b.dataset.qty) === qty));
+    updateSummary();
   }
 
-  async function askNotifPermission() {
-    dismissNotifBanner();
-    const perm = await Notification.requestPermission();
-    if (perm === 'granted') {
-      new Notification('✅ MasseurPro', { body: 'Notifications activées ! Vous serez informé de votre commande.', icon: '/icon-192.png' });
-    }
+  function updateSummary() {
+    const qty = parseInt(document.getElementById('qty').value);
+    selectedQty = qty;
+    document.getElementById('sum-qty').textContent = QTY_LABELS[qty];
+    document.getElementById('sum-total').textContent = PRICES[qty] + ' DT';
+    document.getElementById('sticky-price').textContent = PRICES[qty] + ' DT';
+    document.querySelectorAll('.bundle').forEach(b => b.classList.toggle('selected', parseInt(b.dataset.qty) === qty));
   }
 
   function showToast(msg) {
@@ -453,6 +853,8 @@
   function openModal() {
     document.getElementById('modal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    document.getElementById('qty').value = selectedQty;
+    updateSummary();
   }
   function closeModal() {
     document.getElementById('modal').classList.remove('open');
@@ -461,41 +863,38 @@
   function closeModalOutside(e) {
     if (e.target === document.getElementById('modal')) closeModal();
   }
-  function updateSummary() {
-    const qty = parseInt(document.getElementById('qty').value);
-    document.getElementById('sum-qty').textContent = QTY_LABELS[qty];
-    document.getElementById('sum-total').textContent = PRICES[qty] + ' DT';
-  }
 
   async function submitOrder() {
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
+    const governorate = document.getElementById('governorate').value;
     const address = document.getElementById('address').value.trim();
     const qty = parseInt(document.getElementById('qty').value);
+    const fullAddress = governorate ? `${address}, ${governorate}` : address;
 
-    if (!name || !phone || !address) { alert('Veuillez remplir tous les champs 🙏'); return; }
+    if (!name || !phone || !governorate || !address) {
+      alert('Veuillez remplir tous les champs 🙏');
+      return;
+    }
 
-    // 1. Save to Supabase
-    if (supabase && !SUPABASE_URL.includes('VOTRE')) {
+    if (supabase) {
       try {
         const { error } = await supabase.from('orders').insert({
-          name, phone, address,
+          name, phone, address: fullAddress,
           product: 'EMS Foot Massager',
           quantity: qty,
           total_price: PRICES[qty],
           status: 'pending'
         });
         if (!error) showToast('✅ Commande enregistrée !');
-      } catch(e) { console.error('Supabase error:', e); }
+      } catch(e) { console.error(e); }
     }
 
-    // 2. Open WhatsApp
-    const msg = `⚡ *Nouvelle commande – MasseurPro*\n\n👤 Nom : ${name}\n📞 Téléphone : ${phone}\n📍 Adresse : ${address}\n\n📦 Produit : EMS Foot Massager\n🔢 Quantité : ${QTY_LABELS[qty]}\n💰 Total : ${PRICES[qty]} DT (livraison incluse)\n💳 Paiement : À la livraison\n\nMerci de confirmer la disponibilité et la date de livraison 🙏`;
+    const msg = `⚡ *Commande MasseurPro – EMS Foot Massager*\n\n👤 ${name}\n📞 ${phone}\n📍 ${fullAddress}\n\n📦 ${QTY_LABELS[qty]}\n💰 *${PRICES[qty]} DT* (livraison incluse)\n💳 Paiement à la livraison\n\nMerci de confirmer 🙏`;
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     closeModal();
   }
 
-  // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -504,11 +903,12 @@
     });
   });
 
-  // Hide sticky when pricing visible
-  const obs = new IntersectionObserver(entries => {
+  const stickyObs = new IntersectionObserver(entries => {
     document.getElementById('sticky').style.display = entries[0].isIntersecting ? 'none' : 'flex';
   }, { threshold: 0.3 });
-  obs.observe(document.getElementById('pricing'));
+  stickyObs.observe(document.getElementById('offers'));
+
+  updateSummary();
 </script>
 </body>
 </html>
