@@ -161,20 +161,28 @@
     /* Product visual */
     .product-stage {
       position: relative;
-      background: linear-gradient(160deg, #e0f2fe 0%, #f0f9ff 50%, #fff 100%);
+      background: #fff;
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      border: 1px solid #bae6fd;
+      padding: 1rem;
+      border: 1px solid var(--line);
       box-shadow: var(--shadow-lg);
     }
-    .product-stage::before {
-      content: ''; position: absolute; inset: 1rem;
-      border: 2px dashed rgba(14, 165, 233, .2); border-radius: 20px; pointer-events: none;
-    }
     .product-img {
-      width: 100%; border-radius: 16px;
-      filter: drop-shadow(0 20px 30px rgba(15, 23, 42, .15));
+      width: 100%; border-radius: 14px;
+      background: #f8fafc;
+      object-fit: contain;
+      aspect-ratio: 1;
     }
+    .product-thumbs {
+      display: flex; gap: .55rem; margin-top: .75rem;
+    }
+    .product-thumbs button {
+      flex: 1; border: 2px solid var(--line); border-radius: 10px;
+      padding: 0; overflow: hidden; background: #f8fafc; cursor: pointer;
+      transition: border-color .15s;
+    }
+    .product-thumbs button.active { border-color: var(--brand); }
+    .product-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
     .float-tag {
       position: absolute; background: var(--surface);
       border: 1px solid var(--line); border-radius: 12px;
@@ -487,7 +495,15 @@
     </div>
 
     <div class="product-stage">
-      <img src="ems-product.jpg" alt="EMS Foot Massager – tapis masseur électrique des pieds" class="product-img" loading="eager">
+      <img src="ems-product.jpg" alt="EMS Foot Massager – kit complet tapis, télécommande et accessoires" class="product-img" id="main-product-img" loading="eager">
+      <div class="product-thumbs">
+        <button type="button" class="active" onclick="setProductImage('ems-product.jpg', this)" aria-label="Kit complet">
+          <img src="ems-product.jpg" alt="Kit complet">
+        </button>
+        <button type="button" onclick="setProductImage('ems-lifestyle.jpg', this)" aria-label="Utilisation">
+          <img src="ems-lifestyle.jpg" alt="Utilisation sur les pieds">
+        </button>
+      </div>
       <div class="float-tag t1"><span class="dot"></span> En stock · Expédition rapide</div>
       <div class="float-tag t2">⭐ 4.8/5 · 312 avis</div>
     </div>
@@ -841,6 +857,12 @@
     document.getElementById('sum-total').textContent = PRICES[qty] + ' DT';
     document.getElementById('sticky-price').textContent = PRICES[qty] + ' DT';
     document.querySelectorAll('.bundle').forEach(b => b.classList.toggle('selected', parseInt(b.dataset.qty) === qty));
+  }
+
+  function setProductImage(src, btn) {
+    document.getElementById('main-product-img').src = src;
+    document.querySelectorAll('.product-thumbs button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
   }
 
   function showToast(msg) {
