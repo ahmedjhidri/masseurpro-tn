@@ -1,5 +1,5 @@
-const CACHE = 'masseurpro-v3';
-const STATIC = ['/manifest.json', '/icon-192.png', '/ems-product.jpg', '/ems-lifestyle.jpg', '/ems-detail.jpg', '/ems-kit.jpg'];
+const CACHE = 'masseurpro-v4';
+const STATIC = ['/manifest.json', '/icon-192.png', '/ems-1.jpg', '/ems-2.jpg', '/ems-3.jpg', '/ems-4.jpg', '/ems-5.jpg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(STATIC)).catch(() => {}));
@@ -18,16 +18,9 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET') return;
 
-  // Always fetch fresh HTML/JS — old cache broke buttons & carousel
   if (url.pathname === '/' || url.pathname.endsWith('.html')) {
     e.respondWith(
-      fetch(e.request)
-        .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, copy));
-          return res;
-        })
-        .catch(() => caches.match(e.request).then(r => r || caches.match('/index.html')))
+      fetch(e.request).catch(() => caches.match('/index.html'))
     );
     return;
   }

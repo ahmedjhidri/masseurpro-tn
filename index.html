@@ -178,43 +178,56 @@
       width: 100%;
       aspect-ratio: 1;
       border-radius: 14px;
-      touch-action: pan-y pinch-zoom;
+      touch-action: pan-x;
+      cursor: grab;
     }
+    .carousel-viewport:active { cursor: grabbing; }
     .carousel-track {
       display: flex;
       height: 100%;
+      width: 100%;
       transition: transform .35s ease;
       will-change: transform;
     }
     .carousel-slide {
       flex: 0 0 100%;
+      min-width: 100%;
       width: 100%;
       height: 100%;
       display: grid;
       place-items: center;
-      padding: .75rem;
+      padding: .5rem;
       user-select: none;
+      background: #fff;
     }
     .carousel-slide img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
+      border-radius: 10px;
       pointer-events: none;
+    }
+    .carousel-hint {
+      text-align: center;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-top: .4rem;
     }
     .carousel-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 36px;
-      height: 36px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       border: none;
-      background: rgba(255,255,255,.95);
-      box-shadow: var(--shadow);
-      font-size: 1.4rem;
+      background: rgba(255,255,255,.98);
+      box-shadow: 0 4px 16px rgba(15,23,42,.15);
+      font-size: 1.6rem;
       line-height: 1;
       color: var(--ink);
-      z-index: 2;
+      z-index: 10;
       display: grid;
       place-items: center;
     }
@@ -241,6 +254,7 @@
       border: 1px solid var(--line); border-radius: 12px;
       padding: .5rem .75rem; font-size: .72rem; font-weight: 700;
       box-shadow: var(--shadow); display: flex; align-items: center; gap: .4rem;
+      pointer-events: none; z-index: 3;
     }
     .float-tag.t1 { top: 1rem; left: .5rem; }
     .float-tag.t2 { bottom: 1.5rem; right: .5rem; }
@@ -447,26 +461,33 @@
     .sticky-bar .s-sub { font-size: .68rem; color: var(--muted); font-weight: 600; }
     .sticky-bar .btn-primary { padding: .65rem 1.25rem; font-size: .88rem; white-space: nowrap; }
 
-    /* Modal */
+    /* Modal popup commande */
     .modal-overlay {
-      display: none; position: fixed; inset: 0; z-index: 9999;
-      background: rgba(15,23,42,.55); backdrop-filter: blur(4px);
-      align-items: flex-end; justify-content: center;
+      display: none; position: fixed; inset: 0; z-index: 99999;
+      background: rgba(15,23,42,.7); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+      padding: 1rem;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity .2s ease;
     }
-    .modal-overlay.open { display: flex; pointer-events: auto; }
-    @media (min-width: 768px) {
-      .modal-overlay { align-items: center; padding: 1rem; }
-      .modal { border-radius: 24px; max-height: 85vh; }
+    .modal-overlay.open {
+      display: flex; pointer-events: auto; opacity: 1;
     }
     .modal {
-      background: var(--surface); width: 100%; max-width: 480px;
-      border-radius: 24px 24px 0 0; padding: 1.5rem 1.25rem 2rem;
-      max-height: 92vh; overflow-y: auto;
-      animation: slideUp .25s ease;
+      background: var(--surface); width: 100%; max-width: 440px;
+      border-radius: 20px; padding: 1.5rem 1.25rem 1.75rem;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(15,23,42,.35);
+      transform: scale(.95);
+      transition: transform .2s ease;
       pointer-events: auto;
     }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-overlay.open .modal { transform: scale(1); }
+    @media (max-width: 767px) {
+      .modal-overlay { align-items: flex-end; padding: 0; }
+      .modal { border-radius: 20px 20px 0 0; max-width: 100%; }
+    }
     .modal-handle { width: 40px; height: 4px; background: var(--line); border-radius: 4px; margin: 0 auto 1rem; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
     .modal-header h2 { font-size: 1.1rem; font-weight: 800; }
@@ -601,15 +622,17 @@
       <div class="carousel" id="product-carousel">
         <div class="carousel-viewport" id="carousel-viewport">
           <div class="carousel-track" id="carousel-track">
-            <div class="carousel-slide"><img src="ems-lifestyle.jpg?v=3" alt="Utilisation sur les pieds"></div>
-            <div class="carousel-slide"><img src="ems-product.jpg?v=3" alt="Tapis EMS Foot Massager"></div>
-            <div class="carousel-slide"><img src="ems-detail.jpg?v=3" alt="Télécommande EMS"></div>
-            <div class="carousel-slide"><img src="ems-kit.jpg?v=3" alt="Kit complet"></div>
+            <div class="carousel-slide"><img src="ems-1.jpg?v=4" alt="Utilisation relaxante"></div>
+            <div class="carousel-slide"><img src="ems-2.jpg?v=4" alt="Tapis EMS vue dessus"></div>
+            <div class="carousel-slide"><img src="ems-3.jpg?v=4" alt="Télécommande 9 modes"></div>
+            <div class="carousel-slide"><img src="ems-5.jpg?v=4" alt="Kit complet"></div>
+            <div class="carousel-slide"><img src="ems-4.jpg?v=4" alt="Détail du tapis"></div>
           </div>
         </div>
         <button type="button" class="carousel-btn prev" id="carousel-prev" aria-label="Photo précédente">‹</button>
         <button type="button" class="carousel-btn next" id="carousel-next" aria-label="Photo suivante">›</button>
         <div class="carousel-dots" id="carousel-dots"></div>
+        <p class="carousel-hint">← Glissez ou utilisez les flèches →</p>
       </div>
       <div class="float-tag t1"><span class="dot"></span> En stock · Expédition rapide</div>
       <div class="float-tag t2">⭐ 4.8/5 · 312 avis</div>
@@ -921,7 +944,7 @@
     <div class="modal-handle"></div>
     <div class="modal-header">
       <h2 id="modal-title">Commander</h2>
-      <button type="button" class="modal-close" id="modal-close" aria-label="Fermer">✕</button>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Fermer" onclick="closeOrderModal()">✕</button>
     </div>
     <div class="form-error" id="modal-error"></div>
     <form id="modal-form" novalidate>
@@ -937,7 +960,15 @@
         <label for="modal-address">Adresse complète</label>
         <input type="text" id="modal-address" placeholder="Ex: Sfax, Sakiet Ezzit" required>
       </div>
-      <button type="submit" class="btn-submit">Confirmer ma commande</button>
+      <div class="field">
+        <label for="modal-qty">Quantité</label>
+        <select id="modal-qty">
+          <option value="1">1 tapis — 29 DT</option>
+          <option value="2" selected>2 tapis — 54 DT</option>
+          <option value="3">3 tapis — 79 DT</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-submit">Confirmer ma commande — <span id="modal-total">54 DT</span></button>
       <p class="modal-note">Paiement à la livraison uniquement</p>
     </form>
   </div>
@@ -945,7 +976,28 @@
 
 <div id="toast" style="display:none;position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#047857;color:#fff;padding:.8rem 1.4rem;border-radius:999px;font-weight:700;font-size:.88rem;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.2)"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<!-- Popup commande — fonctionne même si le reste du JS charge après -->
+<script>
+  function openOrder() {
+    var m = document.getElementById('modal');
+    if (!m) return;
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function() {
+      var n = document.getElementById('modal-name');
+      if (n) n.focus();
+    }, 100);
+  }
+  function closeOrderModal() {
+    var m = document.getElementById('modal');
+    if (m) m.classList.remove('open');
+    document.body.style.overflow = '';
+    var err = document.getElementById('modal-error');
+    if (err) err.classList.remove('show');
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 <script>
   const SUPABASE_URL = 'https://bvqlsmonbnkbesyyxual.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2cWxzbW9uYm5rYmVzeXl4dWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTc1NTMsImV4cCI6MjA5ODQzMzU1M30.qw9uGV1WvPgY3lAsxumk3UgHYgANL5DxgowsAoPBfQc';
@@ -953,11 +1005,13 @@
   const PRICES = { 1: 29, 2: 54, 3: 79 };
   const QTY_LABELS = { 1: '1 tapis', 2: '2 tapis', 3: '3 tapis' };
   let selectedQty = 2;
-  let supabase = null;
+  let sbClient = null;
 
-  try {
-    if (window.supabase) supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  } catch (e) {}
+  function initSupabase() {
+    try {
+      if (window.supabase) sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (e) {}
+  }
 
   function showToast(msg) {
     const t = document.getElementById('toast');
@@ -1003,26 +1057,28 @@
   function openOrder() {
     hideError(document.getElementById('form-error'));
     hideError(document.getElementById('modal-error'));
+    const modalQty = document.getElementById('modal-qty');
+    const pageQty = document.getElementById('qty');
+    if (modalQty && pageQty) modalQty.value = pageQty.value;
+    updateModalTotal();
     const modal = document.getElementById('modal');
     if (modal) {
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      setTimeout(() => document.getElementById('modal-name')?.focus(), 150);
-      return;
-    }
-    const section = document.getElementById('commander');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      section.classList.add('highlight');
-      setTimeout(() => section.classList.remove('highlight'), 1200);
+      setTimeout(() => document.getElementById('modal-name')?.focus(), 100);
     }
   }
   window.openOrder = openOrder;
 
   function closeModal() {
-    document.getElementById('modal')?.classList.remove('open');
-    document.body.style.overflow = '';
-    hideError(document.getElementById('modal-error'));
+    closeOrderModal();
+  }
+  window.closeOrderModal = closeModal;
+
+  function updateModalTotal() {
+    const qty = parseInt(document.getElementById('modal-qty')?.value, 10) || selectedQty;
+    const el = document.getElementById('modal-total');
+    if (el) el.textContent = PRICES[qty] + ' DT';
   }
 
   async function processOrder(name, phone, address, qty, errorEl) {
@@ -1032,9 +1088,9 @@
       return false;
     }
 
-    if (supabase) {
+    if (sbClient) {
       try {
-        const { error } = await supabase.from('orders').insert({
+        const { error } = await sbClient.from('orders').insert({
           name,
           phone,
           address,
@@ -1060,30 +1116,36 @@
     const dotsWrap = document.getElementById('carousel-dots');
     if (!track || !viewport || !dotsWrap) return;
 
-    const slides = track.querySelectorAll('.carousel-slide');
+    const total = track.children.length;
     let index = 0;
     let startX = 0;
     let dragging = false;
 
-    slides.forEach((_, i) => {
+    dotsWrap.innerHTML = '';
+    for (let i = 0; i < total; i++) {
       const dot = document.createElement('button');
       dot.type = 'button';
       dot.setAttribute('aria-label', 'Photo ' + (i + 1));
       if (i === 0) dot.classList.add('active');
       dot.addEventListener('click', () => goTo(i));
       dotsWrap.appendChild(dot);
-    });
-
+    }
     const dots = dotsWrap.querySelectorAll('button');
 
     function goTo(i) {
-      index = Math.max(0, Math.min(i, slides.length - 1));
-      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      index = Math.max(0, Math.min(i, total - 1));
+      track.style.transform = 'translate3d(-' + (index * 100) + '%, 0, 0)';
       dots.forEach((d, n) => d.classList.toggle('active', n === index));
     }
 
-    document.getElementById('carousel-prev')?.addEventListener('click', () => goTo(index - 1));
-    document.getElementById('carousel-next')?.addEventListener('click', () => goTo(index + 1));
+    document.getElementById('carousel-prev')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goTo(index - 1);
+    });
+    document.getElementById('carousel-next')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goTo(index + 1);
+    });
 
     viewport.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
@@ -1094,20 +1156,27 @@
       if (!dragging) return;
       dragging = false;
       const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 40) goTo(index + (diff > 0 ? 1 : -1));
+      if (Math.abs(diff) > 35) goTo(index + (diff > 0 ? 1 : -1));
     }, { passive: true });
 
     viewport.addEventListener('mousedown', (e) => { startX = e.clientX; dragging = true; });
-    viewport.addEventListener('mouseup', (e) => {
+    window.addEventListener('mouseup', (e) => {
       if (!dragging) return;
       dragging = false;
       const diff = startX - e.clientX;
-      if (Math.abs(diff) > 40) goTo(index + (diff > 0 ? 1 : -1));
+      if (Math.abs(diff) > 35) goTo(index + (diff > 0 ? 1 : -1));
     });
+
+    goTo(0);
   }
 
   function initForms() {
     document.getElementById('qty')?.addEventListener('change', updateSummary);
+    document.getElementById('modal-qty')?.addEventListener('change', () => {
+      updateModalTotal();
+      const q = document.getElementById('modal-qty')?.value;
+      if (q) selectBundle(parseInt(q, 10));
+    });
 
     document.getElementById('order-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1123,8 +1192,7 @@
 
     document.getElementById('modal-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const qtyEl = document.getElementById('qty');
-      const qty = qtyEl ? parseInt(qtyEl.value, 10) || selectedQty : selectedQty;
+      const qty = parseInt(document.getElementById('modal-qty')?.value, 10) || selectedQty;
       const ok = await processOrder(
         document.getElementById('modal-name').value.trim(),
         document.getElementById('modal-phone').value.trim(),
@@ -1151,6 +1219,9 @@
     document.getElementById('modal')?.addEventListener('click', (e) => {
       if (e.target.id === 'modal') closeModal();
     });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
 
     document.querySelectorAll('.bundle').forEach(b => {
       b.addEventListener('click', () => selectBundle(parseInt(b.dataset.qty, 10)));
@@ -1175,10 +1246,12 @@
   }
 
   function boot() {
+    initSupabase();
     initCarousel();
     initForms();
     initUI();
     updateSummary();
+    updateModalTotal();
   }
 
   if (document.readyState === 'loading') {
@@ -1188,10 +1261,7 @@
   }
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(regs => {
-      regs.forEach(r => r.update());
-    });
-    navigator.serviceWorker.register('/sw.js?v=3').catch(() => {});
+    navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
   }
 </script>
 </body>
