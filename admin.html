@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d47a1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <title>Admin – MasseurPro Commandes</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0d1b2e; color: #fff; min-height: 100vh; }
+    header { background: #1565c0; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 1.1rem; font-weight: 800; }
+    .badge { background: #f9a825; color: #1a1a1a; padding: .2rem .7rem; border-radius: 20px; font-size: .8rem; font-weight: 700; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; padding: 1.2rem; }
+    .stat-card { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 1rem; text-align: center; }
+    .stat-card .val { font-size: 1.8rem; font-weight: 900; color: #f9a825; }
+    .stat-card .lbl { font-size: .75rem; opacity: .6; margin-top: .2rem; }
+    .orders-wrap { padding: 0 1.2rem 2rem; }
+    .orders-wrap h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; opacity: .7; }
+    .order-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: .8rem; position: relative; }
+    .order-card.new { border-color: #f9a825; animation: pulse 1s ease; }
+    @keyframes pulse { 0%,100%{ box-shadow: 0 0 0 0 rgba(249,168,37,.4); } 50%{ box-shadow: 0 0 0 8px rgba(249,168,37,0); } }
+    .order-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .5rem; }
+    .order-name { font-weight: 700; font-size: 1rem; }
+    .order-price { font-weight: 900; color: #f9a825; font-size: 1.1rem; }
+    .order-detail { font-size: .82rem; opacity: .7; margin-bottom: .15rem; }
+    .status-badge { display: inline-block; padding: .2rem .7rem; border-radius: 20px; font-size: .72rem; font-weight: 700; }
+    .status-pending { background: rgba(249,168,37,.2); color: #f9a825; }
+    .status-confirmed { background: rgba(0,150,136,.2); color: #4db6ac; }
+    .order-actions { display: flex; gap: .5rem; margin-top: .7rem; }
+    .btn-sm { padding: .3rem .8rem; border-radius: 20px; font-size: .78rem; font-weight: 700; border: none; cursor: pointer; }
+    .btn-wa { background: #25d366; color: #fff; }
+    .btn-confirm { background: #1565c0; color: #fff; }
+    .notif-btn { display: block; width: calc(100% - 2.4rem); margin: 0 1.2rem 1rem; background: #1565c0; color: #fff; padding: .75rem; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; font-size: .9rem; }
+    .live-dot { width: 8px; height: 8px; background: #4caf50; border-radius: 50%; display: inline-block; animation: blink 1.5s infinite; margin-right: .4rem; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .empty { text-align: center; padding: 3rem 1rem; opacity: .4; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ MasseurPro Admin</h1>
+  <span><span class="live-dot"></span><span id="live-status">En attente...</span></span>
+</header>
+
+<div class="stats">
+  <div class="stat-card"><div class="val" id="total-orders">0</div><div class="lbl">Commandes</div></div>
+  <div class="stat-card"><div class="val" id="total-revenue">0 DT</div><div class="lbl">Revenu total</div></div>
+  <div class="stat-card"><div class="val" id="today-orders">0</div><div class="lbl">Aujourd'hui</div></div>
+</div>
+
+<button class="notif-btn" onclick="enableNotifs()">🔔 Activer notifications push</button>
+
+<div class="orders-wrap">
+  <h2>Dernières commandes</h2>
+  <div id="orders-list"><div class="empty">Aucune commande pour l'instant.<br>En attente de connexion Supabase...</div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  // ⚠️ REMPLACER avec vos vraies valeurs Supabase
+  const SUPABASE_URL = 'https://bvqlsmonbnkbesyyxual.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2cWxzbW9uYm5rYmVzeXl4dWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTc1NTMsImV4cCI6MjA5ODQzMzU1M30.qw9uGV1WvPgY3lAsxumk3UgHYgANL5DxgowsAoPBfQc';
+  const WA_NUMBER = "21600000000";
+
+  let orders = [];
+  let client = null;
+
+  try {
+    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    init();
+  } catch(e) {
+    document.getElementById('live-status').textContent = 'Supabase non configuré';
+  }
+
+  async function init() {
+    // Load existing orders
+    const { data, error } = await client.from('orders').select('*').order('created_at', { ascending: false }).limit(50);
+    if (error) { document.getElementById('live-status').textContent = 'Erreur: ' + error.message; return; }
+    orders = data || [];
+    renderOrders();
+    updateStats();
+
+    // Subscribe to realtime new orders
+    client.channel('orders').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'orders' }, payload => {
+      orders.unshift(payload.new);
+      renderOrders(payload.new.id);
+      updateStats();
+      notifyNewOrder(payload.new);
+    }).subscribe(status => {
+      document.getElementById('live-status').textContent = status === 'SUBSCRIBED' ? 'En direct ✓' : status;
+    });
+  }
+
+  function renderOrders(newId = null) {
+    const list = document.getElementById('orders-list');
+    if (orders.length === 0) { list.innerHTML = '<div class="empty">Aucune commande</div>'; return; }
+    list.innerHTML = orders.map(o => `
+      <div class="order-card ${o.id === newId ? 'new' : ''}" id="order-${o.id}">
+        <div class="order-top">
+          <div>
+            <div class="order-name">👤 ${o.name}</div>
+            <span class="status-badge status-${o.status}">${o.status === 'pending' ? '⏳ En attente' : '✅ Confirmé'}</span>
+          </div>
+          <div class="order-price">${o.total_price} DT</div>
+        </div>
+        <div class="order-detail">📞 ${o.phone}</div>
+        <div class="order-detail">📍 ${o.address}</div>
+        <div class="order-detail">📦 ${o.product} × ${o.quantity}</div>
+        <div class="order-detail">🕐 ${new Date(o.created_at).toLocaleString('fr-TN')}</div>
+        <div class="order-actions">
+          <button class="btn-sm btn-wa" onclick="openWA('${o.name}','${o.phone}','${o.address}',${o.quantity},${o.total_price})">💬 WhatsApp</button>
+          <button class="btn-sm btn-confirm" onclick="confirmOrder(${o.id})">✅ Confirmer</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function updateStats() {
+    document.getElementById('total-orders').textContent = orders.length;
+    const rev = orders.reduce((s, o) => s + (o.total_price || 0), 0);
+    document.getElementById('total-revenue').textContent = rev + ' DT';
+    const today = new Date().toDateString();
+    const todayCount = orders.filter(o => new Date(o.created_at).toDateString() === today).length;
+    document.getElementById('today-orders').textContent = todayCount;
+  }
+
+  function notifyNewOrder(order) {
+    if (Notification.permission === 'granted') {
+      new Notification('🛒 Nouvelle commande !', {
+        body: `${order.name} – ${order.address} – ${order.total_price} DT`,
+        icon: '/icon-192.png',
+        vibrate: [200, 100, 200]
+      });
+    }
+  }
+
+  async function enableNotifs() {
+    const perm = await Notification.requestPermission();
+    if (perm === 'granted') {
+      alert('✅ Notifications activées ! Vous serez alerté à chaque nouvelle commande.');
+    } else {
+      alert('Notifications refusées. Activez-les dans les paramètres du navigateur.');
+    }
+  }
+
+  function openWA(name, phone, address, qty, price) {
+    const msg = `✅ *Confirmation commande – MasseurPro*\n\nBonjour ${name} !\nVotre commande de ${qty} EMS Foot Massager (${price} DT) est confirmée.\nLivraison à : ${address}\nNous vous contactons pour la date de livraison. Merci ! 🙏`;
+    window.open(`https://wa.me/${phone.replace(/\s/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  async function confirmOrder(id) {
+    if (!client) return;
+    await client.from('orders').update({ status: 'confirmed' }).eq('id', id);
+    orders = orders.map(o => o.id === id ? {...o, status: 'confirmed'} : o);
+    renderOrders();
+  }
+</script>
+</body>
+</html>
